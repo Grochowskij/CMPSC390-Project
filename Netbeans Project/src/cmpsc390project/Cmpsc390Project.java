@@ -1,11 +1,19 @@
 package cmpsc390project;
 
-public class Cmpsc390Project {
+import javafx.application.Application;
+import javafx.stage.Stage;
 
+public class Cmpsc390Project extends Application{
+    
     public static void main(String[] args) {
         
+        launch(args);
         
-        
+    }
+
+    @Override
+    public void start(Stage stage) throws Exception {
+        stage.show();
     }
     
 }
