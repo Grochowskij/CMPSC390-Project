@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -13,9 +12,6 @@ import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -42,21 +38,8 @@ public class Cmpsc390Project extends Application{
 
         Group root = new Group();
         
-        Rectangle r = new Rectangle(200,200);
-        r.setFill(Color.BLUE);
-        r.setLayoutX(50);
-        r.setLayoutY(250);
-        root.getChildren().add(r);
-        
-        HBox hb1 = new HBox();
-        
-        Label label1 = new Label("2/25/20");
-        label1.setLayoutX(70);
-        label1.setLayoutY(275);
-        root.getChildren().add(label1);
-        
-        
         Scene scene = new Scene(root);
+        scene.getStylesheets().add("cmpsc390project/Styling.css");
         
         Button homePage = new Button();
         homePage.setText("Home Page");
