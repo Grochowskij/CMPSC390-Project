@@ -1,2 +1,6 @@
-curl 30.0 12
-bench 120.0 12
+Curls 30.0 12
+Danny 100.0 23
+Bench 145.0 5
+Triceps 80.0 12
+Kryceps 100.0 12
+wing 1200.0 234
