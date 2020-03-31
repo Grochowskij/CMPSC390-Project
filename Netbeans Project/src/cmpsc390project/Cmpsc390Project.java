@@ -66,36 +66,55 @@ public class Cmpsc390Project extends Application{
         }
     }
       
-           private final TableView<Record> tableView = new TableView<>();
+    private final TableView<Record> tableView = new TableView<>();
  
     private final ObservableList<Record> dataList
             = FXCollections.observableArrayList();
-   
+    
+    public void createStatPage(){
+        
+    }
+    
+    public void createWorkoutPage(){
+        
+    }
     
     public void createHomepage(){
-        
         Stage stage = new Stage();
+        stage.setTitle("Home Page");
         stage.setMaximized(true);
 
-
-        stage.setTitle("Home Page");
- 
         Group root = new Group();
- 
-        VBox vBox = new VBox();
-        vBox.minWidth(200);
-        vBox.getChildren().add(tableView);
- 
-        root.getChildren().add(vBox);
         
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add("cmpsc390project/Styling.css");
+        
+        Button homePage = new Button();
+        homePage.setText("Home Page");
+        homePage.setMinWidth(100);
+        root.getChildren().add(homePage);
+        
+        //Takes to mod schedule
         Button btn = new Button();
-        btn.setText("To Modify Schedule");
-        btn.setLayoutX(300);
-        btn.setLayoutY(100);
+        btn.setText("Modify Schedule");
+        btn.setLayoutX(100);
+        btn.setLayoutY(0);
+        btn.setMinWidth(100);
         root.getChildren().add(btn);
- 
-        stage.setScene(new Scene(root, 700, 250));
-        stage.show();
+        
+        //takes to list of workouts
+        Button WorkoutBtn = new Button();
+        WorkoutBtn.setText("Workout List");
+        WorkoutBtn.setLayoutX(200);
+        WorkoutBtn.setMinWidth(100);
+        root.getChildren().add(WorkoutBtn);
+        
+        //button to stats
+        Button StatBtn = new Button();
+        StatBtn.setText("Statistics");
+        StatBtn.setLayoutX(300);
+        StatBtn.setMinWidth(100);
+        root.getChildren().add(StatBtn);
         
         btn.setOnAction(new EventHandler<ActionEvent>(){
             @Override
@@ -105,6 +124,47 @@ public class Cmpsc390Project extends Application{
             }
 
         });
+        
+        WorkoutBtn.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent evt){ 
+                stage.close();
+                createWorkoutPage();
+            }
+
+        });
+        
+        StatBtn.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent evt){ 
+                stage.close();
+                createStatPage();
+            }
+
+        });
+        
+        homePage.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent evt){ 
+                stage.close();
+                createHomepage();
+            }
+
+        });
+        
+        //Display of workouts
+        VBox vBox = new VBox();
+        vBox.setLayoutX(50);
+        vBox.setLayoutY(100);
+        vBox.minWidth(200);
+        vBox.getChildren().add(tableView);
+ 
+        root.getChildren().add(vBox);
+ 
+        stage.setScene(scene);
+        stage.show();
+        
+        
     }
 
     @Override
@@ -154,7 +214,66 @@ public class Cmpsc390Project extends Application{
         
         Button homePage = new Button();
         homePage.setText("Home Page");
+        homePage.setMinWidth(100);
         root.getChildren().add(homePage);
+        
+        //Takes to mod schedule
+        Button btn = new Button();
+        btn.setText("Modify Schedule");
+        btn.setLayoutX(100);
+        btn.setLayoutY(0);
+        btn.setMinWidth(100);
+        root.getChildren().add(btn);
+        
+        //takes to list of workouts
+        Button WorkoutBtn = new Button();
+        WorkoutBtn.setText("Workout List");
+        WorkoutBtn.setLayoutX(200);
+        WorkoutBtn.setMinWidth(100);
+        root.getChildren().add(WorkoutBtn);
+        
+        //button to stats
+        Button StatBtn = new Button();
+        StatBtn.setText("Statistics");
+        StatBtn.setLayoutX(300);
+        StatBtn.setMinWidth(100);
+        root.getChildren().add(StatBtn);
+        
+        btn.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent evt){ 
+                stage.close();
+                createModSchedPage();
+            }
+
+        });
+        
+        WorkoutBtn.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent evt){ 
+                stage.close();
+                createWorkoutPage();
+            }
+
+        });
+        
+        StatBtn.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent evt){ 
+                stage.close();
+                createStatPage();
+            }
+
+        });
+        
+        homePage.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent evt){ 
+                stage.close();
+                createHomepage();
+            }
+
+        });
         
         //create date box
         DatePicker datePicker = new DatePicker();
@@ -298,48 +417,6 @@ public class Cmpsc390Project extends Application{
             }
 
         });
-        
-        
-        //homepage return code
-        homePage.setOnAction(new EventHandler<ActionEvent>(){
-            @Override
-            public void handle(ActionEvent evt){ 
-                createHomepage();
-                stage.close();
-            }
-
-        });
     }
-    
-//    public void createHomepage(){
-//        Stage stage = new Stage();
-//        stage.setMaximized(true);
-//        
-//        stage.setTitle("Home Page");
-//
-//        Group root = new Group();
-//        Scene scene = new Scene(root);
-//        scene.getStylesheets().add("cmpsc390project/Styling.css");
-//        
-//        Button btn = new Button();
-//        btn.setText("To Modify Schedule");
-//        btn.setLayoutX(100);
-//        btn.setLayoutY(100);
-//        root.getChildren().add(btn);
-//        
-//        
-//
-//        stage.setScene(scene);
-//        stage.show();
-//        
-//        btn.setOnAction(new EventHandler<ActionEvent>(){
-//            @Override
-//            public void handle(ActionEvent evt){ 
-//                stage.close();
-//                createModSchedPage();
-//            }
-//
-//        });
-//    }
     
 }
