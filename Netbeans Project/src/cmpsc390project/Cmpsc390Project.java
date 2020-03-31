@@ -1,5 +1,6 @@
 package cmpsc390project;
 
+import javafx.geometry.Insets;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -30,15 +31,17 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
 public class Cmpsc390Project extends Application{
     
     public static void main(String[] args) {
-        
         launch(args);
-        
     }
     
     public class Record {
@@ -82,7 +85,8 @@ public class Cmpsc390Project extends Application{
         Stage stage = new Stage();
         stage.setTitle("Home Page");
         stage.setMaximized(true);
-
+        
+       
         Group root = new Group();
         
         Scene scene = new Scene(root);
@@ -90,11 +94,14 @@ public class Cmpsc390Project extends Application{
         
         Button homePage = new Button();
         homePage.setText("Home Page");
+        homePage.setStyle("-fx-background-color: #730b6b");
+
         homePage.setMinWidth(100);
         root.getChildren().add(homePage);
         
         //Takes to mod schedule
         Button btn = new Button();
+        btn.setStyle("-fx-background-color: #A62662");
         btn.setText("Modify Schedule");
         btn.setLayoutX(100);
         btn.setLayoutY(0);
@@ -104,12 +111,16 @@ public class Cmpsc390Project extends Application{
         //takes to list of workouts
         Button WorkoutBtn = new Button();
         WorkoutBtn.setText("Workout List");
+        WorkoutBtn.setStyle("-fx-background-color: #e84f64");
+
         WorkoutBtn.setLayoutX(200);
         WorkoutBtn.setMinWidth(100);
         root.getChildren().add(WorkoutBtn);
-        
+        //MAIN NAV
         //button to stats
         Button StatBtn = new Button();
+        StatBtn.setStyle("-fx-background-color: #ff7a8c");
+
         StatBtn.setText("Statistics");
         StatBtn.setLayoutX(300);
         StatBtn.setMinWidth(100);
@@ -150,6 +161,21 @@ public class Cmpsc390Project extends Application{
             }
 
         });
+        
+        // Create the first Text Node
+        Text welcome = new Text("Welcome Back, Homie!");
+        // Create the VBox
+        VBox messageBox = new VBox(8);
+       //messageBox.setPadding(new Insets(5, 50, 50, 25));
+       //welcome.setFont(Font.font("Verdana", FontWeight.BOLD, 40));
+       welcome.setId("fancytext");
+
+       messageBox.setSpacing(5);
+        // Add the Text Nodes to the VBox
+        messageBox.getChildren().add(welcome);    
+        messageBox.setSpacing(30);
+        messageBox.setLayoutY(40);
+        root.getChildren().add(messageBox);
         
         //Display of workouts
         VBox vBox = new VBox();

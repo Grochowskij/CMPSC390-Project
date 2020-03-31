@@ -1,3 +1,23 @@
 .button{
     -fx-color:blue;
+    -fx-text-fill: white;
+
+}
+
+.button.btn{
+    -fx-color: #30016f;
+}
+
+.table-view{
+    -fx-color: #30016f;
+    -fx-text-fill: transparent;
+    -fx-text-background-color: #ff7a8c ;
+
+}
+
+#fancytext {
+    -fx-font: 45px verdana;
+    -fx-fill: linear-gradient(from 0% 20% to 100% 200%, repeat, #7888BF 35%, #86f4ee 50%);
+    -fx-stroke: black;
+    -fx-stroke-width: 1;
 }
