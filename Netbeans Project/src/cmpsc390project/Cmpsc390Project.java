@@ -1,5 +1,6 @@
 package cmpsc390project;
 
+import javafx.geometry.Insets;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -7,9 +8,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -31,15 +35,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
 public class Cmpsc390Project extends Application{
     
     public static void main(String[] args) {
-        
         launch(args);
-        
     }
     
     public class Record {
@@ -57,6 +63,10 @@ public class Cmpsc390Project extends Application{
         public String getWorkout() {
             return Workout.get();
         }
+        
+        public void setWorkout(String s){
+            Workout = new SimpleStringProperty(s);
+        }
  
         Record(String f1, String f2, String f3) {
             this.Date = new SimpleStringProperty(f1);
@@ -66,36 +76,63 @@ public class Cmpsc390Project extends Application{
         }
     }
       
-           private final TableView<Record> tableView = new TableView<>();
+    private final TableView<Record> tableView = new TableView<>();
  
     private final ObservableList<Record> dataList
             = FXCollections.observableArrayList();
-   
+    
+    public void createStatPage(){
+        
+    }
+    
+    public void createWorkoutPage(){
+        
+    }
     
     public void createHomepage(){
-        
         Stage stage = new Stage();
-        stage.setMaximized(true);
-
-
         stage.setTitle("Home Page");
- 
-        Group root = new Group();
- 
-        VBox vBox = new VBox();
-        vBox.minWidth(200);
-        vBox.getChildren().add(tableView);
- 
-        root.getChildren().add(vBox);
+        stage.setMaximized(true);
         
+       
+        Group root = new Group();
+        
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add("cmpsc390project/Styling.css");
+        
+        Button homePage = new Button();
+        homePage.setText("Home Page");
+        homePage.setStyle("-fx-background-color: #730b6b");
+
+        homePage.setMinWidth(100);
+        root.getChildren().add(homePage);
+        
+        //Takes to mod schedule
         Button btn = new Button();
-        btn.setText("To Modify Schedule");
-        btn.setLayoutX(300);
-        btn.setLayoutY(100);
+        btn.setStyle("-fx-background-color: #A62662");
+        btn.setText("Modify Schedule");
+        btn.setLayoutX(100);
+        btn.setLayoutY(0);
+        btn.setMinWidth(100);
         root.getChildren().add(btn);
- 
-        stage.setScene(new Scene(root, 700, 250));
-        stage.show();
+        
+        //takes to list of workouts
+        Button WorkoutBtn = new Button();
+        WorkoutBtn.setText("Workout List");
+        WorkoutBtn.setStyle("-fx-background-color: #e84f64");
+
+        WorkoutBtn.setLayoutX(200);
+        WorkoutBtn.setMinWidth(100);
+        root.getChildren().add(WorkoutBtn);
+        //MAIN NAV
+        //button to stats
+        Button StatBtn = new Button();
+        StatBtn.setStyle("-fx-background-color: #ff7a8c");
+
+        StatBtn.setText("Statistics");
+        StatBtn.setLayoutX(300);
+        StatBtn.setMinWidth(100);
+        root.getChildren().add(StatBtn);
         
         btn.setOnAction(new EventHandler<ActionEvent>(){
             @Override
@@ -105,10 +142,309 @@ public class Cmpsc390Project extends Application{
             }
 
         });
+        
+        WorkoutBtn.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent evt){ 
+                stage.close();
+                createWorkoutPage();
+            }
+
+        });
+        
+        StatBtn.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent evt){ 
+                stage.close();
+                createStatPage();
+            }
+
+        });
+        
+        homePage.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent evt){ 
+                stage.close();
+                createHomepage();
+            }
+
+        });
+        
+        // Create the first Text Node
+        Text welcome = new Text("Welcome Back, Homie!");
+        // Create the VBox
+        VBox messageBox = new VBox(8);
+       //messageBox.setPadding(new Insets(5, 50, 50, 25));
+       //welcome.setFont(Font.font("Verdana", FontWeight.BOLD, 40));
+       welcome.setId("fancytext");
+
+       messageBox.setSpacing(5);
+        // Add the Text Nodes to the VBox
+        messageBox.getChildren().add(welcome);    
+        messageBox.setSpacing(30);
+        messageBox.setLayoutY(40);
+        root.getChildren().add(messageBox);
+        
+        //Display of workouts
+        VBox vBox = new VBox();
+        vBox.setLayoutX(50);
+        vBox.setLayoutY(100);
+        vBox.minWidth(200);
+        vBox.getChildren().add(tableView);
+        
+        Button delete = new Button("Delete selected workout");
+        Button complete = new Button("Completed selected workout");
+        delete.setLayoutX(100);
+        delete.setLayoutY(510);
+        complete.setLayoutX(90);
+        complete.setLayoutY(540);
+        
+        root.getChildren().add(delete);
+        root.getChildren().add(complete);
+        
+        delete.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent evt){
+                Record item = tableView.getSelectionModel().getSelectedItem();
+                if(item!= null){
+                    try {
+                        deleteHomeWorkout(item);
+                    } catch (IOException ex) {
+                        System.out.println("Error");
+                    }
+                    stage.close();
+                    Stage stage = new Stage();
+                    try {
+                        start(stage);
+                    } catch (Exception ex) {
+                        System.out.println("Error at start stage");
+                    }
+                }
+            }
+
+        });
+        
+        complete.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent evt){
+                Record item2 = tableView.getSelectionModel().getSelectedItem();
+                if(item2 != null){
+                    if(LocalDate.parse(item2.getDate()).compareTo(LocalDate.now()) <= 0){
+                        try {
+                            stage.close();
+                            completeHome(item2);
+                        } catch (IOException ex) {
+                            System.out.println("Error at complete Home call");
+                        }
+                    } else {
+                        Label temporalError = new Label("You can't complete a workout before the date scheduled!");
+                        temporalError.setLayoutX(50);
+                        temporalError.setLayoutY(590);
+                        root.getChildren().add(temporalError);
+                    }
+                }
+            }
+
+        });
+ 
+        root.getChildren().add(vBox);
+ 
+        stage.setScene(scene);
+        stage.show();
+        
+        
+    }
+    
+    public void deleteHomeWorkout(Record item) throws IOException{
+        try{
+            File inputFile = new File("Scheduled.txt");
+            File tempFile = new File("myTempFile.txt");
+
+            BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+
+            String lineToRemove = item.getDate() + "," + item.getWorkout() + "," + item.getTime();
+            String currentLine;
+
+            while((currentLine = reader.readLine()) != null) {
+            // trim newline when comparing with lineToRemove
+                
+                String trimmedLine = currentLine.trim();
+                if(trimmedLine.equals(lineToRemove)) continue;
+                writer.write(currentLine + System.getProperty("line.separator"));
+            }
+            writer.close(); 
+            reader.close();
+            
+        } catch(FileNotFoundException e){
+            System.out.println("Error");
+        }
+        
+        try{
+            File inputFile = new File("myTempFile.txt");
+            File tempFile = new File("Scheduled.txt");
+
+            BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+            String currentLine;
+
+            while((currentLine = reader.readLine()) != null) {
+            // trim newline when comparing with lineToRemove
+                
+                String trimmedLine = currentLine.trim();
+                writer.write(currentLine + System.getProperty("line.separator"));
+            }
+            writer.close(); 
+            reader.close();
+            
+        } catch(FileNotFoundException e){
+            System.out.println("Error");
+        }
+    }
+    
+    public void completeHome(Record item) throws IOException{
+        String workouts = item.getWorkout();
+        ArrayList workout = new ArrayList();
+        
+        //seperate multiple workouts
+        while(!workouts.equals("")){
+            workout.add(workouts.substring(0,workouts.indexOf('+')));
+            workouts = workouts.substring(workouts.indexOf('+')+1);
+        }
+        
+        Stage stage = new Stage();
+        stage.setTitle("Completed Workout");
+        stage.setMaximized(true);
+
+        Group root = new Group();
+        
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add("cmpsc390project/Styling.css");
+        
+        Label title = new Label("Select a workout");
+        title.setLayoutX(50);
+        title.setLayoutY(25);
+        root.getChildren().add(title);
+        
+        ComboBox workoutBox = new ComboBox();
+        for(int i = 0; i < workout.size(); ++i){
+            workoutBox.getItems().add(workout.get(i));
+        }
+        workoutBox.setLayoutX(150);
+        workoutBox.setLayoutY(25);
+        root.getChildren().add(workoutBox);
+        
+        Label weight = new Label("Enter weight in lbs:");
+        weight.setLayoutX(50);
+        weight.setLayoutY(75);
+        root.getChildren().add(weight);
+        
+        TextField weightInput = new TextField();
+        weightInput.setLayoutX(200);
+        weightInput.setLayoutY(75);
+        root.getChildren().add(weightInput);
+        
+        Label reps = new Label("Enter number of reps:");
+        reps.setLayoutX(50);
+        reps.setLayoutY(125);
+        root.getChildren().add(reps);
+        
+        TextField repInput = new TextField();
+        repInput.setLayoutX(200);
+        repInput.setLayoutY(125);
+        root.getChildren().add(repInput);
+        
+        Label sets = new Label("Enter number of sets:");
+        sets.setLayoutX(50);
+        sets.setLayoutY(175);
+        root.getChildren().add(sets);
+        
+        TextField setInput = new TextField();
+        setInput.setLayoutX(200);
+        setInput.setLayoutY(175);
+        root.getChildren().add(setInput);
+        
+        Button submit = new Button();
+        submit.setLayoutX(50);
+        submit.setLayoutY(225);
+        root.getChildren().add(submit);
+        
+        submit.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent evt){
+                String repVal = repInput.getText();
+                String weightVal = weightInput.getText();
+                String setVal = setInput.getText();
+                
+                //if makes sure the value is an int
+                if(checkInt(repVal) == false || checkInt(weightVal) == false || checkInt(setVal) == false){
+                    //create error code
+                    Label error = new Label("Enter only numbers in the text boxes!");
+                    error.setLayoutX(50);
+                    error.setLayoutY(275);
+                    root.getChildren().add(error);
+                } else {
+                    //preparation for file. If it doesn't exist it creates the file
+                    File WorkoutInputF = new File("WorkoutInput.txt");
+                    try{
+                        if(!WorkoutInputF.exists()){
+                        System.out.println("We had to make a new file.");
+                        WorkoutInputF.createNewFile();
+                        }
+
+                        FileWriter fileWriter = new FileWriter(WorkoutInputF, true);
+
+                        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+                        bufferedWriter.write(workoutBox.getValue() + " " + weightVal + " " + repVal + " " + setVal + "\n");
+                        bufferedWriter.close();
+                    
+                    } catch(IOException e) {
+                        System.out.println("COULD NOT LOG!!");
+                    }
+                    //if there's only 1 item in the list then after submission we can delete the scheduled workout and return to the home page
+                    if(workoutBox.getItems().size() == 1){
+                        try {
+                            deleteHomeWorkout(item);
+                        } catch (IOException ex) {
+                            System.out.println("Error deleting completed workout after loop");
+                        }
+                        stage.close();
+                        Stage newStage = new Stage();
+                        try {
+                            start(newStage);
+                        } catch (Exception ex) {
+                            System.out.println("Error returning home after completing workout");
+                        }
+                        
+                    
+                    } else {
+                        workoutBox.getItems().remove(workoutBox.getSelectionModel().getSelectedIndex());
+                        workoutBox.getSelectionModel().clearSelection();
+                    }
+                }
+            }
+
+        });
+        
+        stage.setScene(scene);
+        stage.show();
+    }
+    
+    public boolean checkInt(String s){
+        try{
+            Integer.parseInt(s);
+            return true;
+        } catch (NumberFormatException ex){
+            return false;
+        }
     }
 
     @Override
     public void start(Stage stage) throws Exception {
+        tableView.getItems().clear();
+        tableView.getColumns().clear();
+        dataList.clear();
+        
         TableColumn columnF1 = new TableColumn("Date");
         columnF1.setCellValueFactory(
                 new PropertyValueFactory<>("Date"));
@@ -154,7 +490,66 @@ public class Cmpsc390Project extends Application{
         
         Button homePage = new Button();
         homePage.setText("Home Page");
+        homePage.setMinWidth(100);
         root.getChildren().add(homePage);
+        
+        //Takes to mod schedule
+        Button btn = new Button();
+        btn.setText("Modify Schedule");
+        btn.setLayoutX(100);
+        btn.setLayoutY(0);
+        btn.setMinWidth(100);
+        root.getChildren().add(btn);
+        
+        //takes to list of workouts
+        Button WorkoutBtn = new Button();
+        WorkoutBtn.setText("Workout List");
+        WorkoutBtn.setLayoutX(200);
+        WorkoutBtn.setMinWidth(100);
+        root.getChildren().add(WorkoutBtn);
+        
+        //button to stats
+        Button StatBtn = new Button();
+        StatBtn.setText("Statistics");
+        StatBtn.setLayoutX(300);
+        StatBtn.setMinWidth(100);
+        root.getChildren().add(StatBtn);
+        
+        btn.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent evt){ 
+                stage.close();
+                createModSchedPage();
+            }
+
+        });
+        
+        WorkoutBtn.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent evt){ 
+                stage.close();
+                createWorkoutPage();
+            }
+
+        });
+        
+        StatBtn.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent evt){ 
+                stage.close();
+                createStatPage();
+            }
+
+        });
+        
+        homePage.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent evt){ 
+                stage.close();
+                createHomepage();
+            }
+
+        });
         
         //create date box
         DatePicker datePicker = new DatePicker();
@@ -298,48 +693,6 @@ public class Cmpsc390Project extends Application{
             }
 
         });
-        
-        
-        //homepage return code
-        homePage.setOnAction(new EventHandler<ActionEvent>(){
-            @Override
-            public void handle(ActionEvent evt){ 
-                createHomepage();
-                stage.close();
-            }
-
-        });
     }
-    
-//    public void createHomepage(){
-//        Stage stage = new Stage();
-//        stage.setMaximized(true);
-//        
-//        stage.setTitle("Home Page");
-//
-//        Group root = new Group();
-//        Scene scene = new Scene(root);
-//        scene.getStylesheets().add("cmpsc390project/Styling.css");
-//        
-//        Button btn = new Button();
-//        btn.setText("To Modify Schedule");
-//        btn.setLayoutX(100);
-//        btn.setLayoutY(100);
-//        root.getChildren().add(btn);
-//        
-//        
-//
-//        stage.setScene(scene);
-//        stage.show();
-//        
-//        btn.setOnAction(new EventHandler<ActionEvent>(){
-//            @Override
-//            public void handle(ActionEvent evt){ 
-//                stage.close();
-//                createModSchedPage();
-//            }
-//
-//        });
-//    }
     
 }
