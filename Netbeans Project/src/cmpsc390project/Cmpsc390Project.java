@@ -1,6 +1,5 @@
 package cmpsc390project;
 
-import javafx.geometry.Insets;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -8,12 +7,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -35,9 +31,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -364,7 +357,7 @@ public class Cmpsc390Project extends Application{
         setInput.setLayoutY(175);
         root.getChildren().add(setInput);
         
-        Button submit = new Button();
+        Button submit = new Button("Submit");
         submit.setLayoutX(50);
         submit.setLayoutY(225);
         root.getChildren().add(submit);
