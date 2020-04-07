@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 import javafx.application.Application;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,6 +19,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DateCell;
@@ -25,9 +27,12 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TitledPane;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -87,8 +92,91 @@ public class Cmpsc390Project extends Application{
         stage.setTitle("Home Page");
         stage.setMaximized(true);
         
-       
         Group root = new Group();
+        Accordion accordion = new Accordion();
+        accordion.setLayoutX(320);
+        accordion.setLayoutY(100);
+        TableView stats = new TableView();
+        TableColumn<String, position> column1 = new TableColumn<>("Excercise");
+        column1.setCellValueFactory(new PropertyValueFactory<>("excercise"));
+        TableColumn<String, position> column2 = new TableColumn<>("Amount");
+        column2.setCellValueFactory(new PropertyValueFactory<>("amount"));
+        stats.getColumns().add(column1);
+        stats.getColumns().add(column2);
+        root.getChildren().add(stats);
+       
+        TitledPane faststats = new TitledPane("Your Favorites", stats);
+        accordion.getPanes().add(faststats);
+
+        faststats.setLayoutX(320);
+        faststats.setLayoutY(100);
+        //fixes the Favorite's Table's row size to 3
+        stats.setFixedCellSize(25);
+        stats.prefHeightProperty().bind(Bindings.size(stats.getItems()).multiply(stats.getFixedCellSize()).add(30));
+        stats.prefWidthProperty().bind(Bindings.size(stats.getItems()).multiply(stats.getFixedCellSize()).add(60));
+        
+
+   for (int i = 1; i < 4; i ++)
+   {stats.getItems().add(new position(i));}
+   
+    //1RM Stats
+        TabPane tabPane = new TabPane();
+        TitledPane oneRepMax = new TitledPane("1RM Stats", tabPane);
+        accordion.getPanes().add(oneRepMax);
+        oneRepMax.setLayoutX(320);
+        oneRepMax.setLayoutY(250);
+        
+        //Squats Tab
+        TableView squats = new TableView();
+        //fixes the Favorite's Table's row size to 3
+        squats.setFixedCellSize(25);
+        squats.prefHeightProperty().bind(Bindings.size(stats.getItems()).multiply(stats.getFixedCellSize()).add(30));
+        squats.prefWidthProperty().bind(Bindings.size(stats.getItems()).multiply(stats.getFixedCellSize()).add(60));
+        //Squats Table
+        TableColumn squatsLast1RM = new TableColumn("Last 1RM");
+        squatsLast1RM.setCellValueFactory(new PropertyValueFactory("Last 1RM"));
+        TableColumn squatsHighest1RM = new TableColumn("Highest 1RM");
+        squatsLast1RM.setCellValueFactory(new PropertyValueFactory("Highest 1RM"));
+        squats.getColumns().add(squatsLast1RM);
+        squats.getColumns().add(squatsHighest1RM);
+        root.getChildren().add(squats);
+        Tab squat = new Tab("Squats", squats);
+        
+        //Bench Tab
+        TableView benches = new TableView();
+        //Bench Table
+        TableColumn benchesLast1RM = new TableColumn("Last 1RM");
+        squatsLast1RM.setCellValueFactory(new PropertyValueFactory("Last 1RM"));
+        TableColumn benchesHighest1RM = new TableColumn("Highest 1RM");
+        squatsLast1RM.setCellValueFactory(new PropertyValueFactory("Highest 1RM"));
+        benches.getColumns().add(squatsLast1RM);
+        benches.getColumns().add(squatsHighest1RM);
+        root.getChildren().add(benches);
+        Tab bench = new Tab("Benches", benches);
+        
+        //Deadlift Tab
+         TableView deadlifts = new TableView();
+        //Bench Table
+        TableColumn deadliftsLast1RM = new TableColumn("Last 1RM");
+        squatsLast1RM.setCellValueFactory(new PropertyValueFactory("Last 1RM"));
+        TableColumn deadliftsHighest1RM = new TableColumn("Highest 1RM");
+        squatsLast1RM.setCellValueFactory(new PropertyValueFactory("Highest 1RM"));
+        deadlifts.getColumns().add(squatsLast1RM);
+        deadlifts.getColumns().add(squatsHighest1RM);
+        root.getChildren().add(deadlifts);
+        Tab deadlift = new Tab("Deadlift", deadlifts);
+        
+        //add all three tabs to the tabpane
+        tabPane.getTabs().add(squat);
+        tabPane.getTabs().add(bench);
+        tabPane.getTabs().add(deadlift);
+        
+        root.getChildren().add(accordion);
+        
+
+        stage.setTitle("Home Page");
+        stage.setMaximized(true);
+       
         
         Scene scene = new Scene(root);
         scene.getStylesheets().add("cmpsc390project/Styling.css");
@@ -247,6 +335,11 @@ public class Cmpsc390Project extends Application{
         
         
     }
+    
+    public int calculate1RM(int reps, int weights){
+    //1RM formula = weight(reps/100)
+    return  weights * (reps/100);
+}
     
     public void deleteHomeWorkout(Record item) throws IOException{
         try{
