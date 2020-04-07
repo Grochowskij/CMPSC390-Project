@@ -191,7 +191,7 @@ public class Cmpsc390Project extends Application{
         //Takes to mod schedule
         Button btn = new Button();
         btn.setStyle("-fx-background-color: #A62662");
-        btn.setText("Modify Schedule");
+        btn.setText("Add Workout");
         btn.setLayoutX(100);
         btn.setLayoutY(0);
         btn.setMinWidth(100);
@@ -219,7 +219,7 @@ public class Cmpsc390Project extends Application{
             @Override
             public void handle(ActionEvent evt){ 
                 stage.close();
-                createModSchedPage();
+                createModSchedPage(null);
             }
 
         });
@@ -320,7 +320,7 @@ public class Cmpsc390Project extends Application{
                     } else {
                         Label temporalError = new Label("You can't complete a workout before the date scheduled!");
                         temporalError.setLayoutX(50);
-                        temporalError.setLayoutY(590);
+                        temporalError.setLayoutY(640);
                         root.getChildren().add(temporalError);
                     }
                 }
@@ -329,6 +329,20 @@ public class Cmpsc390Project extends Application{
         });
  
         root.getChildren().add(vBox);
+        
+        Button editWorkout = new Button("Edit selected workout");
+        editWorkout.setLayoutX(110);
+        editWorkout.setLayoutY(570);
+        root.getChildren().add(editWorkout);
+        
+        editWorkout.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent evt){
+                stage.close();
+                createModSchedPage(tableView.getSelectionModel().getSelectedItem());
+            }
+
+        });
  
         stage.setScene(scene);
         stage.show();
@@ -564,7 +578,7 @@ public class Cmpsc390Project extends Application{
         createHomepage();
     }
     
-    public void createModSchedPage(){
+    public void createModSchedPage(Record modify){
         Stage stage = new Stage();
         stage.setTitle("Modify Schedule Page");
         stage.setMaximized(true);
@@ -581,7 +595,7 @@ public class Cmpsc390Project extends Application{
         
         //Takes to mod schedule
         Button btn = new Button();
-        btn.setText("Modify Schedule");
+        btn.setText("Add Workout");
         btn.setLayoutX(100);
         btn.setLayoutY(0);
         btn.setMinWidth(100);
@@ -605,7 +619,7 @@ public class Cmpsc390Project extends Application{
             @Override
             public void handle(ActionEvent evt){ 
                 stage.close();
-                createModSchedPage();
+                createModSchedPage(null);
             }
 
         });
@@ -723,6 +737,35 @@ public class Cmpsc390Project extends Application{
         submit.setLayoutX(350);
         submit.setLayoutY(200);
         root.getChildren().add(submit);
+        
+        if(modify!= null){
+            LocalDate localDate = LocalDate.parse(modify.getDate());
+            String tyme1 = modify.getTime().substring(0,modify.getTime().indexOf('-'));
+            String tyme2 = modify.getTime().substring(modify.getTime().indexOf('-')+1);
+            String AMPM1 = tyme1.substring(tyme1.length()-2);
+            String AMPM2 = tyme2.substring(tyme2.length()-2);
+            tyme1 = tyme1.substring(0,tyme1.length()-2);
+            tyme2 = tyme2.substring(0,tyme2.length()-2);
+            String givenWorkouts = modify.getWorkout();
+            ArrayList workouts1 = new ArrayList();
+            while(!givenWorkouts.equals("")){
+                workouts1.add(givenWorkouts.substring(0,givenWorkouts.indexOf("+")));
+                givenWorkouts = givenWorkouts.substring(givenWorkouts.indexOf("+")+1);
+            }
+            
+            time1.getSelectionModel().select(tyme1);
+            time2.getSelectionModel().select(tyme2);
+            day.getSelectionModel().select(AMPM1);
+            night.getSelectionModel().select(AMPM2);
+            if(localDate.isBefore(LocalDate.now())){
+                datePicker.setValue(LocalDate.now());
+            } else {
+                datePicker.setValue(localDate);
+            }
+            for(int i = 0; i < workouts1.size(); ++i){
+                workouts.getSelectionModel().select(workouts1.get(i));
+            }
+        }
         
         stage.setScene(scene);
         stage.show();
