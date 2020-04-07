@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
@@ -774,6 +776,14 @@ public class Cmpsc390Project extends Application{
         submit.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent evt){ 
+                if(modify != null){
+                    try {
+                        deleteHomeWorkout(modify);
+                    } catch (IOException ex) {
+                        System.out.println("Error deleting workout on submit when modify isn't null");
+                    }
+                }
+                
                 if(time1.getValue() == null || time2.getValue() == null || day.getValue() == null || night.getValue() == null){
                     Label error = new Label("Enter a value in all boxes!");
                     error.setLayoutX(stage.getWidth()/2);
