@@ -29,8 +29,13 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -78,7 +83,56 @@ public class Cmpsc390Project extends Application{
         
     }
     
-    public void createWorkoutPage(){
+    public void createWorkoutPage() throws FileNotFoundException{
+        
+        File data = new File("C:\\Users\\HP\\Documents\\NetBeansProjects\\JavaFXApplication2Addition\\src\\input.txt");
+        Scanner read = new Scanner(data);
+        
+        
+        Button btn = new Button();
+        Rectangle backdrop = new Rectangle();
+        
+        backdrop.setHeight(500);
+        backdrop.setWidth(300);
+        backdrop.setX(0);
+        backdrop.setY(0);
+        backdrop.setFill(Color.ALICEBLUE);
+        
+        btn.setText("Say 'Hello World'");
+        
+        btn.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("Hello World!");
+            }
+        });
+        
+        ImageView animation= new ImageView(new Image("pushUp.gif"));
+        animation.setTranslateY(-(backdrop.getHeight()/5));
+        
+        
+        Rectangle WOtext = new Rectangle();
+        Text title = new Text(read.nextLine());
+        title.setTranslateX(0);
+        title.setTranslateY(-180);
+        title.setFill(Color.BROWN);
+        
+        
+        Rectangle WOinstruction = new Rectangle();
+        Text instr = new Text(read.nextLine());
+        instr.setTranslateX(0);
+        instr.setTranslateY(120);
+        instr.setWrappingWidth(200);
+        instr.setFill(Color.BROWN);
+        
+        StackPane root = new StackPane();
+        root.getChildren().add(backdrop);
+        root.getChildren().add(btn);
+        root.getChildren().add(animation);
+        root.getChildren().add(title);
+        root.getChildren().add(instr);
+        Scene scene = new Scene(root, 300, 500);
         
     }
     
