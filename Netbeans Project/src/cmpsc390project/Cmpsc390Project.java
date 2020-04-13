@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -85,7 +87,10 @@ public class Cmpsc390Project extends Application{
     
     public void createWorkoutPage() throws FileNotFoundException{
         
-        File data = new File("C:\\Users\\HP\\Documents\\NetBeansProjects\\JavaFXApplication2Addition\\src\\input.txt");
+        Stage stage = new Stage();
+        stage.setMaximized(true);
+        
+        File data = new File("input.txt");
         Scanner read = new Scanner(data);
         
         
@@ -108,8 +113,8 @@ public class Cmpsc390Project extends Application{
             }
         });
         
-        ImageView animation= new ImageView(new Image("pushUp.gif"));
-        animation.setTranslateY(-(backdrop.getHeight()/5));
+        //ImageView animation= new ImageView(new Image("pushUp.gif"));
+        //animation.setTranslateY(-(backdrop.getHeight()/5));
         
         
         Rectangle WOtext = new Rectangle();
@@ -129,10 +134,13 @@ public class Cmpsc390Project extends Application{
         StackPane root = new StackPane();
         root.getChildren().add(backdrop);
         root.getChildren().add(btn);
-        root.getChildren().add(animation);
+        //root.getChildren().add(animation);
         root.getChildren().add(title);
         root.getChildren().add(instr);
         Scene scene = new Scene(root, 300, 500);
+        
+        stage.setScene(scene);
+        stage.show();
         
     }
     
@@ -194,7 +202,11 @@ public class Cmpsc390Project extends Application{
             @Override
             public void handle(ActionEvent evt){ 
                 stage.close();
-                createWorkoutPage();
+                try {
+                    createWorkoutPage();
+                } catch (FileNotFoundException ex) {
+                    
+                }
             }
 
         });
@@ -575,7 +587,11 @@ public class Cmpsc390Project extends Application{
             @Override
             public void handle(ActionEvent evt){ 
                 stage.close();
-                createWorkoutPage();
+                try {
+                    createWorkoutPage();
+                } catch (FileNotFoundException ex) {
+                    
+                }
             }
 
         });
