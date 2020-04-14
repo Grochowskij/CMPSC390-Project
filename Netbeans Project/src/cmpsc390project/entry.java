@@ -12,7 +12,7 @@ public class entry {
 		set = b;
 		rep = c;
 		temp = d;
-		amount = set * rep;
+		amount = temp * rep;
 	}
 	
 	public String getName(){
