@@ -740,14 +740,16 @@ public class Cmpsc390Project extends Application{
         submit.setLayoutY(200);
         root.getChildren().add(submit);
         
+        //sets info based on editing workout
         if(modify!= null){
             LocalDate localDate = LocalDate.parse(modify.getDate());
             String tyme1 = modify.getTime().substring(0,modify.getTime().indexOf('-'));
             String tyme2 = modify.getTime().substring(modify.getTime().indexOf('-')+1);
             String AMPM1 = tyme1.substring(tyme1.length()-2);
             String AMPM2 = tyme2.substring(tyme2.length()-2);
-            tyme1 = tyme1.substring(0,tyme1.length()-2);
-            tyme2 = tyme2.substring(0,tyme2.length()-2);
+            
+            tyme1 = tyme1.substring(0,tyme1.indexOf(":"));
+            tyme2 = tyme2.substring(0,tyme2.indexOf(":"));
             String givenWorkouts = modify.getWorkout();
             ArrayList workouts1 = new ArrayList();
             while(!givenWorkouts.equals("")){
@@ -778,6 +780,7 @@ public class Cmpsc390Project extends Application{
             public void handle(ActionEvent evt){ 
                 if(modify != null){
                     try {
+                        System.out.println("delete " + modify);
                         deleteHomeWorkout(modify);
                     } catch (IOException ex) {
                         System.out.println("Error deleting workout on submit when modify isn't null");
@@ -826,7 +829,12 @@ public class Cmpsc390Project extends Application{
                     System.out.println("COULD NOT LOG!!");
                 }
                 stage.close();
-                createHomepage();
+                Stage stage = new Stage();
+                    try {
+                        start(stage);
+                    } catch (Exception ex) {
+                        Logger.getLogger(Cmpsc390Project.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
                 }
             }
