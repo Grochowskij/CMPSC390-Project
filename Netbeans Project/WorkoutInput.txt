@@ -2,3 +2,5 @@ Bench 145 10 4
 Push-ups 145 15 4
 Squat 300 10 4
 Squat 300 12 4
+Squat 350 10 3
+Sit-ups 160 10 3
