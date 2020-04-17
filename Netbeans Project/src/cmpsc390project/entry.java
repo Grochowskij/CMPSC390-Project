@@ -18,6 +18,14 @@ public class entry {
 	public String getName(){
 		return name;
 	}
+        
+        public int getReps(){
+            return rep;
+        }
+        
+        public int getWeight(){
+            return temp;
+        }
 	
 	public int getAmount() {
 		return amount;
