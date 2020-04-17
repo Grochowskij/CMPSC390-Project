@@ -4,19 +4,19 @@ public class entry {
 	private String name;
 	private int set;
 	private int rep;
-	private int temp;
+	private int weight;
 	private int amount;
 	
 	public entry(String a, int b, int c, int d){
 		name = a;
-		set = b;
+		weight = b;
 		rep = c;
-		temp = d;
-		amount = temp * rep;
+		set = d;
+		amount = 1;
 	}
         
         public int getWeight(){
-		return set;
+		return weight;
 	}
         
         public int getReps(){
@@ -26,14 +26,6 @@ public class entry {
 	public String getName(){
 		return name;
 	}
-        
-        public int getReps(){
-            return rep;
-        }
-        
-        public int getWeight(){
-            return temp;
-        }
 	
 	public int getAmount() {
 		return amount;
