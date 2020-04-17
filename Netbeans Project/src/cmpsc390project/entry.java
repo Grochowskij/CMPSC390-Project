@@ -14,6 +14,14 @@ public class entry {
 		temp = d;
 		amount = temp * rep;
 	}
+        
+        public int getWeight(){
+		return set;
+	}
+        
+        public int getReps(){
+		return rep;
+	}
 	
 	public String getName(){
 		return name;
