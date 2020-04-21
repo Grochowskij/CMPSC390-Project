@@ -152,17 +152,17 @@ public class Cmpsc390Project extends Application{
 	        lineChart.getData().add(series3);
 			
 			TableView workouts = new TableView();
-			TableColumn<String, workoutEntry> column1 = new TableColumn<>("Excercise");
-		    column1.setCellValueFactory(new PropertyValueFactory<>("excercise"));
-		    TableColumn<String, workoutEntry> column2 = new TableColumn<>("Date");
-		    column2.setCellValueFactory(new PropertyValueFactory<>("date"));
-		    workouts.getColumns().add(column1);
-		    workouts.getColumns().add(column2);
+			//TableColumn<String, workoutEntry> column1 = new TableColumn<>("Excercise");
+		    //column1.setCellValueFactory(new PropertyValueFactory<>("excercise"));
+		    //TableColumn<String, workoutEntry> column2 = new TableColumn<>("Date");
+		    //column2.setCellValueFactory(new PropertyValueFactory<>("date"));
+		    //workouts.getColumns().add(column1);
+		    //workouts.getColumns().add(column2);
 		    
-		    for (int i = 0; i < x; i ++)
-			{
+		    //for (int i = 0; i < x; i ++)
+			//{
 		    //date read from file
-		    workouts.getItems().add(new workoutEntry(exercise, date));}
+		    //workouts.getItems().add(new workoutEntry(exercise, date));}
 			
 	        TitledPane stats = new TitledPane("Stats", workouts);
 	        stats.setLayoutX(750);
