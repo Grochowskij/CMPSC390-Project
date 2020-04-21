@@ -10,7 +10,10 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,6 +21,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DateCell;
@@ -25,9 +29,12 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TitledPane;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -82,13 +89,96 @@ public class Cmpsc390Project extends Application{
         
     }
     
-    public void createHomepage(){
+    public void createHomepage() throws IOException{
         Stage stage = new Stage();
         stage.setTitle("Home Page");
         stage.setMaximized(true);
         
-       
         Group root = new Group();
+        Accordion accordion = new Accordion();
+        accordion.setLayoutX(320);
+        accordion.setLayoutY(100);
+        TableView stats = new TableView();
+        TableColumn<String, position> column1 = new TableColumn<>("Excercise");
+        column1.setCellValueFactory(new PropertyValueFactory<>("excercise"));
+        TableColumn<String, position> column2 = new TableColumn<>("Amount");
+        column2.setCellValueFactory(new PropertyValueFactory<>("amount"));
+        stats.getColumns().add(column1);
+        stats.getColumns().add(column2);
+        root.getChildren().add(stats);
+       
+        TitledPane faststats = new TitledPane("Your Favorites", stats);
+        accordion.getPanes().add(faststats);
+
+        faststats.setLayoutX(320);
+        faststats.setLayoutY(100);
+        //fixes the Favorite's Table's row size to 3
+        stats.setFixedCellSize(25);
+        stats.prefHeightProperty().bind(Bindings.size(stats.getItems()).multiply(stats.getFixedCellSize()).add(30));
+        stats.prefWidthProperty().bind(Bindings.size(stats.getItems()).multiply(stats.getFixedCellSize()).add(60));
+        
+
+   for (int i = 1; i < 4; i ++)
+   {stats.getItems().add(new position(i));}
+   
+    //1RM Stats
+        TabPane tabPane = new TabPane();
+        TitledPane oneRepMax = new TitledPane("1RM Stats", tabPane);
+        accordion.getPanes().add(oneRepMax);
+        oneRepMax.setLayoutX(320);
+        oneRepMax.setLayoutY(250);
+        
+        //Squats Tab
+        TableView squats = new TableView();
+        //fixes the Favorite's Table's row size to 3
+        squats.setFixedCellSize(25);
+        squats.prefHeightProperty().bind(Bindings.size(stats.getItems()).multiply(stats.getFixedCellSize()).add(30));
+        squats.prefWidthProperty().bind(Bindings.size(stats.getItems()).multiply(stats.getFixedCellSize()).add(60));
+        //Squats Table
+        TableColumn squatsLast1RM = new TableColumn("Last 1RM");
+        squatsLast1RM.setCellValueFactory(new PropertyValueFactory("Last 1RM"));
+        TableColumn squatsHighest1RM = new TableColumn("Highest 1RM");
+        squatsLast1RM.setCellValueFactory(new PropertyValueFactory("Highest 1RM"));
+        squats.getColumns().add(squatsLast1RM);
+        squats.getColumns().add(squatsHighest1RM);
+        root.getChildren().add(squats);
+        Tab squat = new Tab("Squats", squats);
+        
+        //Bench Tab
+        TableView benches = new TableView();
+        //Bench Table
+        TableColumn benchesLast1RM = new TableColumn("Last 1RM");
+        squatsLast1RM.setCellValueFactory(new PropertyValueFactory("Last 1RM"));
+        TableColumn benchesHighest1RM = new TableColumn("Highest 1RM");
+        squatsLast1RM.setCellValueFactory(new PropertyValueFactory("Highest 1RM"));
+        benches.getColumns().add(squatsLast1RM);
+        benches.getColumns().add(squatsHighest1RM);
+        root.getChildren().add(benches);
+        Tab bench = new Tab("Benches", benches);
+        
+        //Deadlift Tab
+         TableView deadlifts = new TableView();
+        //Bench Table
+        TableColumn deadliftsLast1RM = new TableColumn("Last 1RM");
+        squatsLast1RM.setCellValueFactory(new PropertyValueFactory("Last 1RM"));
+        TableColumn deadliftsHighest1RM = new TableColumn("Highest 1RM");
+        squatsLast1RM.setCellValueFactory(new PropertyValueFactory("Highest 1RM"));
+        deadlifts.getColumns().add(squatsLast1RM);
+        deadlifts.getColumns().add(squatsHighest1RM);
+        root.getChildren().add(deadlifts);
+        Tab deadlift = new Tab("Deadlift", deadlifts);
+        
+        //add all three tabs to the tabpane
+        tabPane.getTabs().add(squat);
+        tabPane.getTabs().add(bench);
+        tabPane.getTabs().add(deadlift);
+        
+        root.getChildren().add(accordion);
+        
+
+        stage.setTitle("Home Page");
+        stage.setMaximized(true);
+       
         
         Scene scene = new Scene(root);
         scene.getStylesheets().add("cmpsc390project/Styling.css");
@@ -103,7 +193,7 @@ public class Cmpsc390Project extends Application{
         //Takes to mod schedule
         Button btn = new Button();
         btn.setStyle("-fx-background-color: #A62662");
-        btn.setText("Modify Schedule");
+        btn.setText("Add Workout");
         btn.setLayoutX(100);
         btn.setLayoutY(0);
         btn.setMinWidth(100);
@@ -131,7 +221,7 @@ public class Cmpsc390Project extends Application{
             @Override
             public void handle(ActionEvent evt){ 
                 stage.close();
-                createModSchedPage();
+                createModSchedPage(null);
             }
 
         });
@@ -158,7 +248,11 @@ public class Cmpsc390Project extends Application{
             @Override
             public void handle(ActionEvent evt){ 
                 stage.close();
-                createHomepage();
+                try {
+                    createHomepage();
+                } catch (IOException ex) {
+                    Logger.getLogger(Cmpsc390Project.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
 
         });
@@ -232,7 +326,7 @@ public class Cmpsc390Project extends Application{
                     } else {
                         Label temporalError = new Label("You can't complete a workout before the date scheduled!");
                         temporalError.setLayoutX(50);
-                        temporalError.setLayoutY(590);
+                        temporalError.setLayoutY(640);
                         root.getChildren().add(temporalError);
                     }
                 }
@@ -241,12 +335,31 @@ public class Cmpsc390Project extends Application{
         });
  
         root.getChildren().add(vBox);
+        
+        Button editWorkout = new Button("Edit selected workout");
+        editWorkout.setLayoutX(110);
+        editWorkout.setLayoutY(570);
+        root.getChildren().add(editWorkout);
+        
+        editWorkout.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent evt){
+                stage.close();
+                createModSchedPage(tableView.getSelectionModel().getSelectedItem());
+            }
+
+        });
  
         stage.setScene(scene);
         stage.show();
         
         
     }
+    
+    public int calculate1RM(int reps, int weights){
+    //1RM formula = weight(reps/100)
+    return  weights * (reps/100);
+}
     
     public void deleteHomeWorkout(Record item) throws IOException{
         try{
@@ -388,7 +501,7 @@ public class Cmpsc390Project extends Application{
                         FileWriter fileWriter = new FileWriter(WorkoutInputF, true);
 
                         BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-                        bufferedWriter.write(workoutBox.getValue() + " " + weightVal + " " + repVal + " " + setVal + "\n");
+                        bufferedWriter.write(workoutBox.getValue() + "," + weightVal + "," + repVal + "," + setVal + "\n");
                         bufferedWriter.close();
                     
                     } catch(IOException e) {
@@ -471,7 +584,7 @@ public class Cmpsc390Project extends Application{
         createHomepage();
     }
     
-    public void createModSchedPage(){
+    public void createModSchedPage(Record modify){
         Stage stage = new Stage();
         stage.setTitle("Modify Schedule Page");
         stage.setMaximized(true);
@@ -488,7 +601,7 @@ public class Cmpsc390Project extends Application{
         
         //Takes to mod schedule
         Button btn = new Button();
-        btn.setText("Modify Schedule");
+        btn.setText("Add Workout");
         btn.setLayoutX(100);
         btn.setLayoutY(0);
         btn.setMinWidth(100);
@@ -512,7 +625,7 @@ public class Cmpsc390Project extends Application{
             @Override
             public void handle(ActionEvent evt){ 
                 stage.close();
-                createModSchedPage();
+                createModSchedPage(null);
             }
 
         });
@@ -539,7 +652,11 @@ public class Cmpsc390Project extends Application{
             @Override
             public void handle(ActionEvent evt){ 
                 stage.close();
-                createHomepage();
+                try {
+                    createHomepage();
+                } catch (IOException ex) {
+                    Logger.getLogger(Cmpsc390Project.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
 
         });
@@ -631,6 +748,37 @@ public class Cmpsc390Project extends Application{
         submit.setLayoutY(200);
         root.getChildren().add(submit);
         
+        //sets info based on editing workout
+        if(modify!= null){
+            LocalDate localDate = LocalDate.parse(modify.getDate());
+            String tyme1 = modify.getTime().substring(0,modify.getTime().indexOf('-'));
+            String tyme2 = modify.getTime().substring(modify.getTime().indexOf('-')+1);
+            String AMPM1 = tyme1.substring(tyme1.length()-2);
+            String AMPM2 = tyme2.substring(tyme2.length()-2);
+            
+            tyme1 = tyme1.substring(0,tyme1.indexOf(":"));
+            tyme2 = tyme2.substring(0,tyme2.indexOf(":"));
+            String givenWorkouts = modify.getWorkout();
+            ArrayList workouts1 = new ArrayList();
+            while(!givenWorkouts.equals("")){
+                workouts1.add(givenWorkouts.substring(0,givenWorkouts.indexOf("+")));
+                givenWorkouts = givenWorkouts.substring(givenWorkouts.indexOf("+")+1);
+            }
+            
+            time1.getSelectionModel().select(tyme1);
+            time2.getSelectionModel().select(tyme2);
+            day.getSelectionModel().select(AMPM1);
+            night.getSelectionModel().select(AMPM2);
+            if(localDate.isBefore(LocalDate.now())){
+                datePicker.setValue(LocalDate.now());
+            } else {
+                datePicker.setValue(localDate);
+            }
+            for(int i = 0; i < workouts1.size(); ++i){
+                workouts.getSelectionModel().select(workouts1.get(i));
+            }
+        }
+        
         stage.setScene(scene);
         stage.show();
         
@@ -638,6 +786,15 @@ public class Cmpsc390Project extends Application{
         submit.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent evt){ 
+                if(modify != null){
+                    try {
+                        System.out.println("delete " + modify);
+                        deleteHomeWorkout(modify);
+                    } catch (IOException ex) {
+                        System.out.println("Error deleting workout on submit when modify isn't null");
+                    }
+                }
+                
                 if(time1.getValue() == null || time2.getValue() == null || day.getValue() == null || night.getValue() == null){
                     Label error = new Label("Enter a value in all boxes!");
                     error.setLayoutX(stage.getWidth()/2);
@@ -680,7 +837,12 @@ public class Cmpsc390Project extends Application{
                     System.out.println("COULD NOT LOG!!");
                 }
                 stage.close();
-                createHomepage();
+                Stage stage = new Stage();
+                    try {
+                        start(stage);
+                    } catch (Exception ex) {
+                        Logger.getLogger(Cmpsc390Project.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
                 }
             }
