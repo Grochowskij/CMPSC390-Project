@@ -77,8 +77,6 @@ public class position {
 	} catch (FileNotFoundException e) {
             System.out.println("Error, data missing...");
 	}
-        
-        System.out.println(first.getName() + second.getName() + third.getName());
 		
         switch(place){
             case 1: 
