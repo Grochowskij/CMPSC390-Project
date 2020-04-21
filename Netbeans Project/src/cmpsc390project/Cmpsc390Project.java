@@ -89,7 +89,7 @@ public class Cmpsc390Project extends Application{
         
     }
     
-    public void createHomepage(){
+    public void createHomepage() throws IOException{
         Stage stage = new Stage();
         stage.setTitle("Home Page");
         stage.setMaximized(true);
@@ -248,7 +248,11 @@ public class Cmpsc390Project extends Application{
             @Override
             public void handle(ActionEvent evt){ 
                 stage.close();
-                createHomepage();
+                try {
+                    createHomepage();
+                } catch (IOException ex) {
+                    Logger.getLogger(Cmpsc390Project.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
 
         });
@@ -497,7 +501,7 @@ public class Cmpsc390Project extends Application{
                         FileWriter fileWriter = new FileWriter(WorkoutInputF, true);
 
                         BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-                        bufferedWriter.write(workoutBox.getValue() + " " + weightVal + " " + repVal + " " + setVal + "\n");
+                        bufferedWriter.write(workoutBox.getValue() + "," + weightVal + "," + repVal + "," + setVal + "\n");
                         bufferedWriter.close();
                     
                     } catch(IOException e) {
@@ -648,7 +652,11 @@ public class Cmpsc390Project extends Application{
             @Override
             public void handle(ActionEvent evt){ 
                 stage.close();
-                createHomepage();
+                try {
+                    createHomepage();
+                } catch (IOException ex) {
+                    Logger.getLogger(Cmpsc390Project.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
 
         });
