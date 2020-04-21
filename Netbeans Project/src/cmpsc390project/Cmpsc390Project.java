@@ -82,7 +82,143 @@ public class Cmpsc390Project extends Application{
             = FXCollections.observableArrayList();
     
     public void createStatPage(){
-        
+        try {
+			
+    		Stage stage = new Stage();
+    		int x = 3; //number of entries
+			String exercise = "Example";//default
+			String date = "1/1/2020";//default
+			
+			Text t = new Text();
+			t.setText("Your Stats");
+			t.setX(820); 
+			t.setY(50);
+			
+			final NumberAxis xAxis = new NumberAxis();
+	        final NumberAxis yAxis = new NumberAxis();
+	        xAxis.setLabel("Last 10 Workouts");
+	        final LineChart<Number,Number> lineChart = 
+	        new LineChart<Number,Number>(xAxis,yAxis);
+	                
+	        lineChart.setTitle("Progress");
+	        
+	        XYChart.Series series = new XYChart.Series();
+	        series.setName("W1");
+	        
+	        series.getData().add(new XYChart.Data(1, 23));
+	        series.getData().add(new XYChart.Data(2, 14));
+	        series.getData().add(new XYChart.Data(3, 15));
+	        series.getData().add(new XYChart.Data(4, 24));
+	        series.getData().add(new XYChart.Data(5, 34));
+	        series.getData().add(new XYChart.Data(6, 36));
+	        series.getData().add(new XYChart.Data(7, 22));
+	        series.getData().add(new XYChart.Data(8, 45));
+	        series.getData().add(new XYChart.Data(9, 43));
+	        series.getData().add(new XYChart.Data(10, 17));
+	        
+	        XYChart.Series series2 = new XYChart.Series();
+	        series2.setName("W2");
+	        
+	        series2.getData().add(new XYChart.Data(1, 17));
+	        series2.getData().add(new XYChart.Data(2, 43));
+	        series2.getData().add(new XYChart.Data(3, 45));
+	        series2.getData().add(new XYChart.Data(4, 22));
+	        series2.getData().add(new XYChart.Data(5, 36));
+	        series2.getData().add(new XYChart.Data(6, 34));
+	        series2.getData().add(new XYChart.Data(7, 24));
+	        series2.getData().add(new XYChart.Data(8, 15));
+	        series2.getData().add(new XYChart.Data(9, 14));
+	        series2.getData().add(new XYChart.Data(10, 23));
+	        
+	        XYChart.Series series3 = new XYChart.Series();
+	        series3.setName("W3");
+	        
+	        series3.getData().add(new XYChart.Data(1, 30));
+	        series3.getData().add(new XYChart.Data(2, 30));
+	        series3.getData().add(new XYChart.Data(3, 30));
+	        series3.getData().add(new XYChart.Data(4, 30));
+	        series3.getData().add(new XYChart.Data(5, 30));
+	        series3.getData().add(new XYChart.Data(6, 30));
+	        series3.getData().add(new XYChart.Data(7, 30));
+	        series3.getData().add(new XYChart.Data(8, 30));
+	        series3.getData().add(new XYChart.Data(9, 30));
+	        series3.getData().add(new XYChart.Data(10, 30));
+	        
+	        lineChart.getData().add(series);
+	        lineChart.getData().add(series2);
+	        lineChart.getData().add(series3);
+			
+			TableView workouts = new TableView();
+			TableColumn<String, workoutEntry> column1 = new TableColumn<>("Excercise");
+		    column1.setCellValueFactory(new PropertyValueFactory<>("excercise"));
+		    TableColumn<String, workoutEntry> column2 = new TableColumn<>("Date");
+		    column2.setCellValueFactory(new PropertyValueFactory<>("date"));
+		    workouts.getColumns().add(column1);
+		    workouts.getColumns().add(column2);
+		    
+		    for (int i = 0; i < x; i ++)
+			{
+		    //date read from file
+		    workouts.getItems().add(new workoutEntry(exercise, date));}
+			
+	        TitledPane stats = new TitledPane("Stats", workouts);
+	        stats.setLayoutX(750);
+		    stats.setLayoutY(65);
+			
+			Button a = new Button("Home");
+			a.setLayoutX(100);
+		    a.setLayoutY(800);
+			Button b = new Button("Workouts");
+			b.setLayoutX(500);
+		    b.setLayoutY(800);
+			Button c = new Button("Schedule");
+			c.setLayoutX(1200);
+		    c.setLayoutY(800);
+			Button d = new Button("Data");
+			d.setLayoutX(1600);
+		    d.setLayoutY(800);
+			
+		    Group root = new Group(t,stats,a,b,c,d,lineChart);
+			Scene scene = new Scene(root,400,400);
+			
+			stage.setScene(scene);
+			stage.show();
+			stage.setTitle("Stats");
+		    
+		    a.setOnAction(new EventHandler<ActionEvent>(){
+	            @Override
+	            public void handle(ActionEvent evt){ 
+	                stage.close();
+	                try {
+	                    createHomepage();
+	                } catch (IOException ex) {
+	                    Logger.getLogger(Cmpsc390Project.class.getName()).log(Level.SEVERE, null, ex);
+	                }
+	            }
+
+	        });
+		    
+		    b.setOnAction(new EventHandler<ActionEvent>(){
+	            @Override
+	            public void handle(ActionEvent evt){ 
+	                stage.close();
+	                createWorkoutPage();
+	            }
+
+	        });
+		    
+		    c.setOnAction(new EventHandler<ActionEvent>(){
+	            @Override
+	            public void handle(ActionEvent evt){ 
+	                stage.close();
+	                createModSchedPage(null);
+	            }
+
+	        });
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
     }
     
     public void createWorkoutPage(){
