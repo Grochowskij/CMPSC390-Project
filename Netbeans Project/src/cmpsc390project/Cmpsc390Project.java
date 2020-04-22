@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,6 +22,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
@@ -38,6 +40,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -95,37 +98,106 @@ public class Cmpsc390Project extends Application{
         
         
         Button btn = new Button();
+        btn.setTranslateX(300);
+        btn.setTranslateY(150);
+        Button btn1 = new Button();
+        btn1.setTranslateX(300);
+        btn1.setTranslateY(-150);
         Rectangle backdrop = new Rectangle();
-        
         backdrop.setHeight(500);
-        backdrop.setWidth(300);
-        backdrop.setX(0);
-        backdrop.setY(0);
-        backdrop.setFill(Color.ALICEBLUE);
+        backdrop.setWidth(1000);
+        backdrop.setTranslateX(0);
+        backdrop.setTranslateY(0);
+        backdrop.setFill(Color.PINK);
         
-        btn.setText("Say 'Hello World'");
-        
+        btn.setText("Go back");
         btn.setOnAction(new EventHandler<ActionEvent>() {
             
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("Hello World!");
+                stage.close();
+                createHomepage();
             }
         });
         
-        //ImageView animation= new ImageView(new Image("pushUp.gif"));
-        //animation.setTranslateY(-(backdrop.getHeight()/5));
+        btn1.setText("Add Workout");
+        btn1.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent event) {
+                stage.close();
+                try {
+                    addWorkout(data);
+                } catch (IOException e) {
+                    
+                }
+            }
+        });
+        
+        List <Workout> sExcer = new ArrayList<>();
+        Workout sPlaceholder = new Workout("Shoulder Excercies", "S", "Make sure to select your favorite shoulder workout!");
+        sExcer.add(sPlaceholder);
+        List <Workout> lExcer = new ArrayList<>();
+        Workout lPlaceholder = new Workout("Leg Excercies", "L", "Make sure to select your favorite leg workout!");
+        lExcer.add(lPlaceholder);
+        List <Workout> bExcer = new ArrayList<>();
+        Workout bPlaceholder = new Workout("Back Excercies", "B", "Make sure to select your favorite back workout!");
+        bExcer.add(bPlaceholder);
+        
+        while(read.hasNext())
+        {
+            Workout temp = new Workout (read.nextLine(), read.nextLine(), read.nextLine());
+            
+            switch (temp.getBodyClass())
+            {
+                case "S":
+                    sExcer.add(temp);
+                    break;
+                case "L":
+                    lExcer.add(temp);
+                    break;
+                case "B":
+                    bExcer.add(temp);
+                    break;
+                default:
+                    System.out.println("Error");
+                    break;
+            }
+        }
+        
+        ChoiceBox <Workout> sChoice = new ChoiceBox();
+        sChoice.getItems().addAll(sExcer);
+        sChoice.setTranslateX(-400);
+        sChoice.setTranslateY(-200);
+        sChoice.setValue(sPlaceholder);
+        
+        
+        ChoiceBox <Workout> lChoice = new ChoiceBox();
+        lChoice.getItems().addAll(lExcer);
+        lChoice.setTranslateX(-400);
+        lChoice.setTranslateY(0);
+        lChoice.setValue(lPlaceholder);
+        
+        ChoiceBox <Workout> bChoice = new ChoiceBox();
+        bChoice.getItems().addAll(bExcer);
+        bChoice.setTranslateX(-400);
+        bChoice.setTranslateY(200);
+        bChoice.setValue(bPlaceholder);
+        
+        ImageView animation= new ImageView(new Image("pushUp.gif"));
+        animation.setTranslateY(-50);
         
         
         Rectangle WOtext = new Rectangle();
-        Text title = new Text(read.nextLine());
+        Text title = new Text("Select an Exercise to view!");
         title.setTranslateX(0);
         title.setTranslateY(-180);
         title.setFill(Color.BROWN);
         
         
         Rectangle WOinstruction = new Rectangle();
-        Text instr = new Text(read.nextLine());
+        Text instr = new Text("Using the menus on the left side, navigate to an exercise you'd"
+                + " like to view!");
         instr.setTranslateX(0);
         instr.setTranslateY(120);
         instr.setWrappingWidth(200);
@@ -133,10 +205,14 @@ public class Cmpsc390Project extends Application{
         
         StackPane root = new StackPane();
         root.getChildren().add(backdrop);
-        root.getChildren().add(btn);
-        //root.getChildren().add(animation);
+        root.getChildren().addAll(btn, btn1);
+        root.getChildren().add(animation);
         root.getChildren().add(title);
         root.getChildren().add(instr);
+        root.getChildren().addAll(sChoice, lChoice, bChoice);
+        sChoice.getSelectionModel().selectedItemProperty().addListener((v,old, New )-> swap(root, New, title, instr));
+        lChoice.getSelectionModel().selectedItemProperty().addListener((v,old, New )-> swap(root, New, title, instr));
+        bChoice.getSelectionModel().selectedItemProperty().addListener((v,old, New )-> swap(root, New, title, instr));
         Scene scene = new Scene(root, 300, 500);
         
         stage.setScene(scene);
@@ -758,4 +834,151 @@ public class Cmpsc390Project extends Application{
         });
     }
     
+    public void swap(StackPane s, Workout w, Text t, Text i)
+    {
+        s.getChildren().remove(t);
+        s.getChildren().remove(i);
+        t.setText(w.getTitle());
+        i.setText(w.getInstr());
+        s.getChildren().add(t);
+        s.getChildren().add(i);
+    }
+    
+    public void addWorkout(File f) throws IOException
+    {
+        Stage stage = new Stage();
+        stage.setMaximized(true);
+        
+        Rectangle backdrop = new Rectangle();
+        backdrop.setHeight(500);
+        backdrop.setWidth(1000);
+        backdrop.setTranslateX(0);
+        backdrop.setTranslateY(0);
+        backdrop.setFill(Color.PINK);
+        
+        Text title = new Text("Adding an Excercise");
+        title.setFont(Font.font ("Verdana", 40));
+        title.setTranslateX(0);
+        title.setTranslateY(-180);
+        title.setFill(Color.BLUEVIOLET);
+        
+        TextField wName = new TextField();
+        wName.setPromptText("Name of Workout");
+        wName.setPrefWidth(60);
+        
+        ChoiceBox <String> bodyPart = new ChoiceBox();
+        bodyPart.getItems().addAll("Pick a Body Part of Focus", "Shoulder", "Legs", "Back");
+        bodyPart.setValue("Pick a Body Part of Focus");
+        bodyPart.setTranslateY(30);
+        
+        TextField wInstr = new TextField();
+        wInstr.setPromptText("How to do the Workout");
+        wInstr.setPrefHeight(20);
+        wInstr.setTranslateY(bodyPart.getTranslateY()+30);
+        
+        
+        Text emptyField = new Text("One or both of the text boxes have been left blank. Please make sure you've"
+                + " filled them out throughly.");
+        emptyField.setFont(Font.font ("Verdana", 15));
+        emptyField.setWrappingWidth(200);
+        emptyField.setTranslateX(-250);
+        emptyField.setTranslateY(wInstr.getTranslateY()+75);
+        emptyField.setFill(Color.RED); 
+        emptyField.setOpacity(0);
+        
+        Text invalidBodyPart = new Text("You did not select one of the appropriate options given to you"
+                + "for the body part in the drop down menu.");
+        invalidBodyPart.setFont(Font.font ("Verdana", 15));
+        invalidBodyPart.setWrappingWidth(200);
+        invalidBodyPart.setTranslateX(250);
+        invalidBodyPart.setTranslateY(wInstr.getTranslateY()+75);
+        invalidBodyPart.setFill(Color.RED); 
+        invalidBodyPart.setOpacity(0);
+        
+        
+        
+        Button cancel = new Button();
+        cancel.setTranslateX(150);
+        cancel.setTranslateY(200);
+        cancel.setText("Cancel");
+        cancel.setOnAction(new EventHandler<ActionEvent>() {    
+            @Override
+            public void handle(ActionEvent event) {
+                stage.close();
+                try {
+                    createWorkoutPage();
+                } catch (FileNotFoundException e) {
+
+                }
+            }
+        });
+        
+        Button submit = new Button();
+        submit.setTranslateX(-150);
+        submit.setTranslateY(200);
+        submit.setText("Submit");
+        submit.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent event) {
+               if (wName.getText().equals("") || wInstr.getText().equals("") || "Pick a Body Part of Focus".equals(bodyPart.getValue()))
+               {
+                    if (wName.getText().equals("") || wInstr.getText().equals(""))
+                    {
+                        emptyField.setOpacity(100);
+                    }
+                    if ("Pick a Body Part of Focus".equals(bodyPart.getValue()))
+                    {
+                        invalidBodyPart.setOpacity(100);
+                    }
+               }
+               
+               else
+               {
+                   
+                FileWriter myWriter;
+                   try {
+                       myWriter = new FileWriter(f, true);
+                       myWriter.write("\n" + wName.getText());
+                       
+                       switch(bodyPart.getValue())
+                       {
+                           case "Shoulder":
+                            myWriter.write("\nS");
+                            break;
+                           case "Legs":
+                            myWriter.write("\nL");
+                            break;
+                           case "Back":
+                            myWriter.write("\nB");
+                            break;
+                       }
+                       myWriter.write("\n" + wInstr.getText());
+                       myWriter.close();
+                   } catch (IOException ex) {
+                       Logger.getLogger(Cmpsc390Project.class.getName()).log(Level.SEVERE, null, ex);
+                   }
+                stage.close();
+                try {
+                    createWorkoutPage();
+                } catch (FileNotFoundException e) {
+                   
+                }
+               }
+               
+            }
+        });
+        
+        StackPane root = new StackPane();
+        root.getChildren().add(backdrop);
+        root.getChildren().addAll(cancel, submit);
+        root.getChildren().add(title);
+        root.getChildren().addAll(wName, wInstr, bodyPart);
+        root.getChildren().addAll(emptyField, invalidBodyPart);
+       
+        Scene scene = new Scene(root, 300, 500);
+        
+        stage.setScene(scene);
+        stage.show();
+    }
 }
