@@ -23,6 +23,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
@@ -540,13 +541,13 @@ public class Cmpsc390Project extends Application{
         
         ChoiceBox <Workout> lChoice = new ChoiceBox();
         lChoice.getItems().addAll(lExcer);
-        lChoice.setTranslateX(-400);
+        lChoice.setTranslateX(-365);
         lChoice.setTranslateY(0);
         lChoice.setValue(lPlaceholder);
         
         ChoiceBox <Workout> bChoice = new ChoiceBox();
         bChoice.getItems().addAll(bExcer);
-        bChoice.setTranslateX(-400);
+        bChoice.setTranslateX(-385);
         bChoice.setTranslateY(200);
         bChoice.setValue(bPlaceholder);
         
@@ -569,7 +570,9 @@ public class Cmpsc390Project extends Application{
         instr.setWrappingWidth(200);
         instr.setFill(Color.BROWN);
         
+        
         StackPane root = new StackPane();
+        
         root.getChildren().add(backdrop);
         root.getChildren().addAll(btn, btn1);
         root.getChildren().add(animation);
@@ -579,8 +582,89 @@ public class Cmpsc390Project extends Application{
         sChoice.getSelectionModel().selectedItemProperty().addListener((v,old, New )-> swap(root, New, title, instr));
         lChoice.getSelectionModel().selectedItemProperty().addListener((v,old, New )-> swap(root, New, title, instr));
         bChoice.getSelectionModel().selectedItemProperty().addListener((v,old, New )-> swap(root, New, title, instr));
-        Scene scene = new Scene(root, 300, 500);
         
+        Button homePage = new Button();
+        homePage.setText("Home Page");
+        homePage.setStyle("-fx-background-color: #730b6b");
+        homePage.setTranslateX(-555);
+        homePage.setTranslateY(-315);
+        homePage.setMinWidth(100);
+        root.getChildren().add(homePage);
+        
+        //takes to list of workouts
+        Button WorkoutBtn = new Button();
+        WorkoutBtn.setText("Workout List");
+        WorkoutBtn.setStyle("-fx-background-color: #e84f64");
+
+        WorkoutBtn.setTranslateX(200);
+        WorkoutBtn.setMinWidth(100);
+        WorkoutBtn.setTranslateX(-355);
+        WorkoutBtn.setTranslateY(-315);        
+        root.getChildren().add(WorkoutBtn);
+        //MAIN NAV
+        //button to stats
+        Button StatBtn = new Button();
+        StatBtn.setStyle("-fx-background-color: #ff7a8c");
+
+        StatBtn.setText("Statistics");
+        StatBtn.setTranslateX(-255);
+        StatBtn.setTranslateY(-315);   
+        StatBtn.setMinWidth(100);
+        root.getChildren().add(StatBtn);
+        
+        Button nice= new Button();
+        nice.setStyle("-fx-background-color: #A62662");
+        nice.setText("Add Workout");
+        nice.setTranslateX(-455);
+        nice.setTranslateY(-315);  
+        nice.setMinWidth(100);
+        root.getChildren().add(nice);
+        
+        WorkoutBtn.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent evt){ 
+                stage.close();
+                try {
+                    createWorkoutPage();
+                } catch (FileNotFoundException ex) {
+                    
+                }
+            }
+
+        });
+        
+        nice.setText("Add Workout");
+        nice.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent event) {
+                stage.close();
+                try {
+                    addWorkout(data);
+                } catch (IOException e) {
+                    
+                }
+            }
+        });
+        
+        StatBtn.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent evt){ 
+                stage.close();
+                createStatPage();
+            }
+
+        });
+        
+        homePage.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent evt){ 
+                stage.close();
+                createHomepage();
+            }
+
+        });
+        Scene scene = new Scene(root, 300, 500);
         stage.setScene(scene);
         stage.show();
         
@@ -1431,7 +1515,7 @@ public class Cmpsc390Project extends Application{
         
         TextField wName = new TextField();
         wName.setPromptText("Name of Workout");
-        wName.setPrefWidth(60);
+        wName.setMaxWidth(300);
         
         ChoiceBox <String> bodyPart = new ChoiceBox();
         bodyPart.getItems().addAll("Pick a Body Part of Focus", "Shoulder", "Legs", "Back");
@@ -1440,16 +1524,18 @@ public class Cmpsc390Project extends Application{
         
         TextField wInstr = new TextField();
         wInstr.setPromptText("How to do the Workout");
-        wInstr.setPrefHeight(20);
-        wInstr.setTranslateY(bodyPart.getTranslateY()+30);
+        wInstr.setMinHeight(100);
+        wInstr.setMaxWidth(300);
+
+        wInstr.setTranslateY(bodyPart.getTranslateY()+70);
         
         
         Text emptyField = new Text("One or both of the text boxes have been left blank. Please make sure you've"
                 + " filled them out throughly.");
         emptyField.setFont(Font.font ("Verdana", 15));
         emptyField.setWrappingWidth(200);
-        emptyField.setTranslateX(-250);
-        emptyField.setTranslateY(wInstr.getTranslateY()+75);
+        emptyField.setTranslateX(-300);
+        emptyField.setTranslateY(wInstr.getTranslateY()+25);
         emptyField.setFill(Color.RED); 
         emptyField.setOpacity(0);
         
@@ -1457,8 +1543,8 @@ public class Cmpsc390Project extends Application{
                 + "for the body part in the drop down menu.");
         invalidBodyPart.setFont(Font.font ("Verdana", 15));
         invalidBodyPart.setWrappingWidth(200);
-        invalidBodyPart.setTranslateX(250);
-        invalidBodyPart.setTranslateY(wInstr.getTranslateY()+75);
+        invalidBodyPart.setTranslateX(300);
+        invalidBodyPart.setTranslateY(wInstr.getTranslateY()+25);
         invalidBodyPart.setFill(Color.RED); 
         invalidBodyPart.setOpacity(0);
         
@@ -1547,5 +1633,6 @@ public class Cmpsc390Project extends Application{
         
         stage.setScene(scene);
         stage.show();
+
     }
 }
