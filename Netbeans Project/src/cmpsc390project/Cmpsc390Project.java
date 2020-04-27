@@ -95,7 +95,357 @@ public class Cmpsc390Project extends Application{
             = FXCollections.observableArrayList();
     
     public void createStatPage(){
-        
+        try {
+			
+    		Stage stage = new Stage();
+    		int x = 3; //number of entries
+			String exercise = "Example";//default
+			String date = "1/1/2020";//default
+			
+			Text t = new Text();
+			t.setText("Your Stats");
+			t.setX(820); 
+			t.setY(50);
+			
+			entry s1 = new entry();
+			entry s2 = new entry();
+			entry s3 = new entry();
+			entry s4 = new entry();
+			entry s5 = new entry();
+			entry s6 = new entry();
+			entry s7 = new entry();
+			entry s8 = new entry();
+			entry s9 = new entry();
+			entry s10 = new entry();
+			
+			entry b1 = new entry();
+			entry b2 = new entry();
+			entry b3 = new entry();
+			entry b4 = new entry();
+			entry b5 = new entry();
+			entry b6 = new entry();
+			entry b7 = new entry();
+			entry b8 = new entry();
+			entry b9 = new entry();
+			entry b10 = new entry();
+			
+			entry d1 = new entry();
+			entry d2 = new entry();
+			entry d3 = new entry();
+			entry d4 = new entry();
+			entry d5 = new entry();
+			entry d6 = new entry();
+			entry d7 = new entry();
+			entry d8 = new entry();
+			entry d9 = new entry();
+			entry d10 = new entry();
+			
+			int scount = 0, bcount = 0, dcount = 0;
+			File workouts = new File("WorkoutInput.txt");
+			String FieldDelimiter = ",";
+	        BufferedReader reader = new BufferedReader(new FileReader(workouts));
+	        String line;
+			while ((line = reader.readLine()) != null)
+			{String[] fields = line.split(FieldDelimiter,-2);
+			entry temp = new entry(fields[0],Integer.parseInt(fields[1]),Integer.parseInt(fields[2]),Integer.parseInt(fields[3]));
+			if (temp.getName().equals("Squat"))
+			{if (scount == 0)
+			{s1 = temp;
+			scount ++;}
+			else if (scount == 1)
+			{s2 = temp;
+			scount ++;}
+			else if (scount == 2)
+			{s3 = temp;
+			scount ++;}
+			else if (scount == 3)
+			{s4 = temp;
+			scount ++;}
+			else if (scount == 4)
+			{s5 = temp;
+			scount ++;}
+			else if (scount == 5)
+			{s6 = temp;
+			scount ++;}
+			else if (scount == 6)
+			{s7 = temp;
+			scount ++;}
+			else if (scount == 7)
+			{s8 = temp;
+			scount ++;}
+			else if (scount == 8)
+			{s9 = temp;
+			scount ++;}
+			else if (scount == 9)
+			{s10 = temp;
+			scount ++;}
+			else if (scount >= 10)
+			{s1 = s2;
+			s2 = s3;
+			s3 = s4;
+			s4 = s5;
+			s5 = s6;
+			s6 = s7;
+			s7 = s8;
+			s8 = s9;
+			s9 = s10;
+			s10 = temp;}}
+			else if (temp.getName().equals("Bench"))
+			{if (bcount == 0)
+			{b1 = temp;
+			bcount ++;}
+			else if (bcount == 1)
+			{b2 = temp;
+			bcount ++;}
+			else if (bcount == 2)
+			{b3 = temp;
+			bcount ++;}
+			else if (bcount == 3)
+			{b4 = temp;
+			bcount ++;}
+			else if (bcount == 4)
+			{b5 = temp;
+			bcount ++;}
+			else if (bcount == 5)
+			{b6 = temp;
+			bcount ++;}
+			else if (bcount == 6)
+			{b7 = temp;
+			bcount ++;}
+			else if (bcount == 7)
+			{b8 = temp;
+			bcount ++;}
+			else if (bcount == 8)
+			{b9 = temp;
+			bcount ++;}
+			else if (bcount == 9)
+			{b10 = temp;
+			bcount ++;}
+			else if (bcount >= 10)
+			{b1 = b2;
+			b2 = b3;
+			b3 = b4;
+			b4 = b5;
+			b5 = b6;
+			b6 = b7;
+			b7 = b8;
+			b8 = b9;
+			b9 = b10;
+			b10 = temp;}}
+			else if (temp.getName().equals("Barbell Deadlift"))
+			{if (dcount == 0)
+			{d1 = temp;
+			dcount ++;}
+			else if (dcount == 1)
+			{d2 = temp;
+			dcount ++;}
+			else if (dcount == 2)
+			{d3 = temp;
+			dcount ++;}
+			else if (dcount == 3)
+			{d4 = temp;
+			dcount ++;}
+			else if (dcount == 4)
+			{d5 = temp;
+			dcount ++;}
+			else if (dcount == 5)
+			{d6 = temp;
+			dcount ++;}
+			else if (dcount == 6)
+			{d7 = temp;
+			dcount ++;}
+			else if (dcount == 7)
+			{d8 = temp;
+			dcount ++;}
+			else if (dcount == 8)
+			{d9 = temp;
+			dcount ++;}
+			else if (dcount == 9)
+			{d10 = temp;
+			dcount ++;}
+			else if (dcount >= 10)
+			{d1 = d2;
+			d2 = d3;
+			d3 = d4;
+			d4 = d5;
+			d5 = d6;
+			d6 = d7;
+			d7 = d8;
+			d8 = d9;
+			d9 = d10;
+			d10 = temp;}}
+			}
+			
+			
+			final NumberAxis xAxis = new NumberAxis();
+	        final NumberAxis yAxis = new NumberAxis();
+	        xAxis.setLabel("Last 10 Workouts");
+	        yAxis.setLabel("1RM");
+	        final LineChart<Number,Number> lineChart = 
+	        new LineChart<Number,Number>(xAxis,yAxis);
+	                
+	        lineChart.setTitle("Progress");
+	        
+	        XYChart.Series series = new XYChart.Series();
+	        series.setName("Squats");
+	        
+	        series.getData().add(new XYChart.Data(1, calculate1RM(s1.getReps(),s1.getWeight())));
+	        series.getData().add(new XYChart.Data(2, calculate1RM(s2.getReps(),s2.getWeight())));
+	        series.getData().add(new XYChart.Data(3, calculate1RM(s3.getReps(),s3.getWeight())));
+	        series.getData().add(new XYChart.Data(4, calculate1RM(s4.getReps(),s4.getWeight())));
+	        series.getData().add(new XYChart.Data(5, calculate1RM(s5.getReps(),s5.getWeight())));
+	        series.getData().add(new XYChart.Data(6, calculate1RM(s6.getReps(),s6.getWeight())));
+	        series.getData().add(new XYChart.Data(7, calculate1RM(s7.getReps(),s7.getWeight())));
+	        series.getData().add(new XYChart.Data(8, calculate1RM(s8.getReps(),s8.getWeight())));
+	        series.getData().add(new XYChart.Data(9, calculate1RM(s9.getReps(),s9.getWeight())));
+	        series.getData().add(new XYChart.Data(10, calculate1RM(s10.getReps(),s10.getWeight())));
+	        
+	        XYChart.Series series2 = new XYChart.Series();
+	        series2.setName("Benches");
+	        
+	        series2.getData().add(new XYChart.Data(1, calculate1RM(b1.getReps(),b1.getWeight())));
+	        series2.getData().add(new XYChart.Data(2, calculate1RM(b2.getReps(),b2.getWeight())));
+	        series2.getData().add(new XYChart.Data(3, calculate1RM(b3.getReps(),b3.getWeight())));
+	        series2.getData().add(new XYChart.Data(4, calculate1RM(b4.getReps(),b4.getWeight())));
+	        series2.getData().add(new XYChart.Data(5, calculate1RM(b5.getReps(),b5.getWeight())));
+	        series2.getData().add(new XYChart.Data(6, calculate1RM(b6.getReps(),b6.getWeight())));
+	        series2.getData().add(new XYChart.Data(7, calculate1RM(b7.getReps(),b7.getWeight())));
+	        series2.getData().add(new XYChart.Data(8, calculate1RM(b8.getReps(),b8.getWeight())));
+	        series2.getData().add(new XYChart.Data(9, calculate1RM(b9.getReps(),b9.getWeight())));
+	        series2.getData().add(new XYChart.Data(10, calculate1RM(b10.getReps(),b10.getWeight())));
+	        
+	        XYChart.Series series3 = new XYChart.Series();
+	        series3.setName("Deadlift");
+	        
+	        series3.getData().add(new XYChart.Data(1, calculate1RM(d1.getReps(),d1.getWeight())));
+	        series3.getData().add(new XYChart.Data(2, calculate1RM(d2.getReps(),d2.getWeight())));
+	        series3.getData().add(new XYChart.Data(3, calculate1RM(d3.getReps(),d3.getWeight())));
+	        series3.getData().add(new XYChart.Data(4, calculate1RM(d4.getReps(),d4.getWeight())));
+	        series3.getData().add(new XYChart.Data(5, calculate1RM(d5.getReps(),d5.getWeight())));
+	        series3.getData().add(new XYChart.Data(6, calculate1RM(d6.getReps(),d6.getWeight())));
+	        series3.getData().add(new XYChart.Data(7, calculate1RM(d7.getReps(),d7.getWeight())));
+	        series3.getData().add(new XYChart.Data(8, calculate1RM(d8.getReps(),d8.getWeight())));
+	        series3.getData().add(new XYChart.Data(9, calculate1RM(d9.getReps(),d9.getWeight())));
+	        series3.getData().add(new XYChart.Data(10, calculate1RM(d10.getReps(),d10.getWeight())));
+	        
+	        lineChart.getData().add(series);
+	        lineChart.getData().add(series2);
+	        lineChart.getData().add(series3);
+			
+			TableView workouts1 = new TableView();
+			TableColumn<String, cell> column1 = new TableColumn<>("Name");
+		    column1.setCellValueFactory(new PropertyValueFactory<>("name"));
+		    TableColumn<String, cell> column2 = new TableColumn<>("Amount");
+		    column2.setCellValueFactory(new PropertyValueFactory<>("amount"));
+		    workouts1.getColumns().add(column1);
+		    workouts1.getColumns().add(column2);
+		    workouts1.getItems().add(new cell("Lateral Raise"));
+		    workouts1.getItems().add(new cell("Military Press"));
+		    workouts1.getItems().add(new cell("Arnold Press"));
+		    workouts1.getItems().add(new cell("Half-Kneeling Archer Row"));
+		    workouts1.getItems().add(new cell("Kettlebell Single-Arm Press"));
+		    workouts1.getItems().add(new cell("Dumbbell Push Press"));
+			
+			TableView workouts2 = new TableView();
+			TableColumn<String, cell> column3 = new TableColumn<>("Name");
+		    column3.setCellValueFactory(new PropertyValueFactory<>("name"));
+		    TableColumn<String, cell> column4 = new TableColumn<>("Amount");
+		    column4.setCellValueFactory(new PropertyValueFactory<>("amount"));
+		    workouts2.getColumns().add(column3);
+		    workouts2.getColumns().add(column4);
+		    workouts2.getItems().add(new cell("Walking Lunge"));
+		    workouts2.getItems().add(new cell("Squat"));
+		    workouts2.getItems().add(new cell("Squat Jump"));
+		    workouts2.getItems().add(new cell("Split Squat (With or Without Dumbbells)"));
+		    workouts2.getItems().add(new cell("Single Leg Bridge"));
+		    workouts2.getItems().add(new cell("Step Up"));
+		    workouts2.getItems().add(new cell("Lunge Jumps"));
+		    workouts2.getItems().add(new cell("Squat Pulses"));
+			
+			TableView workouts3 = new TableView();
+			TableColumn<String, cell> column5 = new TableColumn<>("Name");
+		    column5.setCellValueFactory(new PropertyValueFactory<>("name"));
+		    TableColumn<String, cell> column6 = new TableColumn<>("Amount");
+		    column6.setCellValueFactory(new PropertyValueFactory<>("amount"));
+		    workouts3.getColumns().add(column5);
+		    workouts3.getColumns().add(column6);
+		    workouts3.getItems().add(new cell("Kettlebell Swings"));
+		    workouts3.getItems().add(new cell("Barbell Deadlift"));
+		    workouts3.getItems().add(new cell("Barbell Bent-Over Row"));
+		    workouts3.getItems().add(new cell("Pull-Up"));
+		    workouts3.getItems().add(new cell("Dumbbell Single Arm Row"));
+		    workouts3.getItems().add(new cell("Chest-Supported Dumbbell Row"));
+		    workouts3.getItems().add(new cell("Inverted Row"));
+		    workouts3.getItems().add(new cell("Lat Pull-Downs"));
+		    workouts3.getItems().add(new cell("Single-Arm T-Bar Rows"));
+		    workouts3.getItems().add(new cell("Farmers’ Walk"));
+		    
+	        TitledPane shoulder = new TitledPane("Shoulder", workouts1);
+	        shoulder.setLayoutX(750);
+		    shoulder.setLayoutY(65);
+		    TitledPane leg = new TitledPane("Leg", workouts2);
+	        leg.setLayoutX(1000);
+		    leg.setLayoutY(65);
+		    TitledPane back = new TitledPane("Back", workouts3);
+	        back.setLayoutX(1250);
+		    back.setLayoutY(65);
+			
+			Button a = new Button("Home");
+			a.setLayoutX(100);
+		    a.setLayoutY(800);
+			Button b = new Button("Workouts");
+			b.setLayoutX(500);
+		    b.setLayoutY(800);
+			Button c = new Button("Schedule");
+			c.setLayoutX(1200);
+		    c.setLayoutY(800);
+			
+		    Group root = new Group(t,shoulder,leg,back,a,b,c,lineChart,workouts1);
+			Scene scene = new Scene(root,400,400);
+			
+			stage.setScene(scene);
+			stage.show();
+			stage.setTitle("Stats");
+		    
+		    a.setOnAction(new EventHandler<ActionEvent>(){
+	            @Override
+	            public void handle(ActionEvent evt){ 
+	                stage.close();
+	                try {
+	                    createHomepage();
+	                } catch (IOException ex) {
+	                    Logger.getLogger(Cmpsc390Project.class.getName()).log(Level.SEVERE, null, ex);
+	                }
+	            }
+
+	        });
+		    
+		    b.setOnAction(new EventHandler<ActionEvent>(){
+	            @Override
+	            public void handle(ActionEvent evt){ 
+	                stage.close();
+	                try {
+						createWorkoutPage();
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+	            }
+
+	        });
+		    
+		    c.setOnAction(new EventHandler<ActionEvent>(){
+	            @Override
+	            public void handle(ActionEvent evt){ 
+	                stage.close();
+	                createModSchedPage(null);
+	            }
+
+	        });
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
     }
     
     public void createWorkoutPage() throws FileNotFoundException{
