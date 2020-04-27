@@ -294,11 +294,7 @@ public class Cmpsc390Project extends Application{
             @Override
             public void handle(ActionEvent evt){ 
                 stage.close();
-                try {
-                    createHomepage();
-                } catch (IOException ex) {
-                    Logger.getLogger(Cmpsc390Project.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                createHomepage();
             }
 
         });
