@@ -334,8 +334,8 @@ public class Cmpsc390Project extends Application{
 	        lineChart.getData().add(series2);
 	        lineChart.getData().add(series3);
 			
-			TableView workouts1 = new TableView();
-			TableColumn<String, cell> column1 = new TableColumn<>("Name");
+                    TableView workouts1 = new TableView();
+                    TableColumn<String, cell> column1 = new TableColumn<>("Name");
 		    column1.setCellValueFactory(new PropertyValueFactory<>("name"));
 		    TableColumn<String, cell> column2 = new TableColumn<>("Amount");
 		    column2.setCellValueFactory(new PropertyValueFactory<>("amount"));
@@ -383,13 +383,13 @@ public class Cmpsc390Project extends Application{
 		    workouts3.getItems().add(new cell("Farmers’ Walk"));
 		    
 	        TitledPane shoulder = new TitledPane("Shoulder", workouts1);
-	        shoulder.setLayoutX(750);
+	        shoulder.setLayoutX(500);
 		    shoulder.setLayoutY(65);
 		    TitledPane leg = new TitledPane("Leg", workouts2);
-	        leg.setLayoutX(1000);
+	        leg.setLayoutX(750);
 		    leg.setLayoutY(65);
 		    TitledPane back = new TitledPane("Back", workouts3);
-	        back.setLayoutX(1250);
+	        back.setLayoutX(1000);
 		    back.setLayoutY(65);
 			
 			Button a = new Button("Home");
