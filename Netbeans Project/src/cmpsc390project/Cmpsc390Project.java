@@ -98,9 +98,7 @@ public class Cmpsc390Project extends Application{
         try {
 			
     		Stage stage = new Stage();
-    		int x = 3; //number of entries
-			String exercise = "Example";//default
-			String date = "1/1/2020";//default
+    		stage.setMaximized(true);
 			
 			Text t = new Text();
 			t.setText("Your Stats");
@@ -285,6 +283,7 @@ public class Cmpsc390Project extends Application{
 	        new LineChart<Number,Number>(xAxis,yAxis);
 	                
 	        lineChart.setTitle("Progress");
+			lineChart.setLayoutY(30);
 	        
 	        XYChart.Series series = new XYChart.Series();
 	        series.setName("Squats");
@@ -391,14 +390,14 @@ public class Cmpsc390Project extends Application{
 		    back.setLayoutY(65);
 			
 			Button a = new Button("Home");
-			a.setLayoutX(100);
-		    a.setLayoutY(800);
+			a.setLayoutX(0);
+		    a.setLayoutY(0);
 			Button b = new Button("Workouts");
-			b.setLayoutX(500);
-		    b.setLayoutY(800);
+			b.setLayoutX(55);
+		    b.setLayoutY(0);
 			Button c = new Button("Schedule");
-			c.setLayoutX(1200);
-		    c.setLayoutY(800);
+			c.setLayoutX(135);
+		    c.setLayoutY(0);
 			
 		    Group root = new Group(t,shoulder,leg,back,a,b,c,lineChart,workouts1);
 			Scene scene = new Scene(root,400,400);
