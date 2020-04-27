@@ -1,6 +1,6 @@
 package cmpsc390project;
 
-public class entry {
+public class entry implements Comparable<entry>{
 	private String name;
 	private int set;
 	private int rep;
@@ -10,7 +10,6 @@ public class entry {
 	public entry(String a, int b, int c, int d){
 		name = a;
 		weight = b;
-		rep = c;
 		set = d;
 		amount = 1;
 	}
@@ -34,4 +33,17 @@ public class entry {
 	public void setAmount(int add) {
 		amount = add;
 	}
+        
+        @Override
+        public int compareTo(entry o) {
+           if(this.getAmount() > o.getAmount()){
+               return 1;
+           } else {
+               if (this.getAmount() == o.getAmount()){
+                   return 0;
+               } else {
+                   return -1;
+               }
+           }
+        }
 }

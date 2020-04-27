@@ -562,9 +562,9 @@ public class Cmpsc390Project extends Application{
                         FileWriter fileWriter = new FileWriter(WorkoutInputF, true);
 
                         BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-                        bufferedWriter.write(workoutBox.getValue() + " " + weightVal + " " + repVal + " " + setVal + "\n");
-                       
-                        bufferedWriter.close();  
+                        bufferedWriter.write(workoutBox.getValue() + "," + weightVal + "," + repVal + "," + setVal + "\n");
+                        bufferedWriter.close();
+                      
                     } catch(IOException e) {
                         System.out.println("COULD NOT LOG!!");
                     }
