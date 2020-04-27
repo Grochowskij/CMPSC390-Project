@@ -7,6 +7,14 @@ public class entry implements Comparable<entry>{
 	private int weight;
 	private int amount;
 	
+	public entry() {
+		name = "";
+		set = 0;
+		rep = 0;
+		weight = 0;
+		amount = 0;
+	}
+	
 	public entry(String a, int b, int c, int d){
 		name = a;
 		weight = b;
