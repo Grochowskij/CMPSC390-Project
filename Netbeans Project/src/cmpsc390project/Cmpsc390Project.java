@@ -7,14 +7,17 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import static java.time.Clock.system;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -33,6 +36,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -83,6 +87,7 @@ public class Cmpsc390Project extends Application{
       
         }
     }
+    
       
     private final TableView<Record> tableView = new TableView<>();
  
@@ -265,42 +270,31 @@ public class Cmpsc390Project extends Application{
         oneRepMax.setLayoutY(250);
         
         //Squats Tab
-        TableView squats = new TableView();
-        //fixes the Favorite's Table's row size to 3
-        squats.setFixedCellSize(25);
-        squats.prefHeightProperty().bind(Bindings.size(stats.getItems()).multiply(stats.getFixedCellSize()).add(30));
-        squats.prefWidthProperty().bind(Bindings.size(stats.getItems()).multiply(stats.getFixedCellSize()).add(60));
-        //Squats Table
-        TableColumn squatsLast1RM = new TableColumn("Last 1RM");
-        squatsLast1RM.setCellValueFactory(new PropertyValueFactory("Last 1RM"));
-        TableColumn squatsHighest1RM = new TableColumn("Highest 1RM");
-        squatsLast1RM.setCellValueFactory(new PropertyValueFactory("Highest 1RM"));
-        squats.getColumns().add(squatsLast1RM);
-        squats.getColumns().add(squatsHighest1RM);
+        Text squatInfo = new Text("Highest 1RM: " + createStatRecord("squats")+ "\n" + "Latest 1RM: ");
+        // Create the VBox
+        VBox squats = new VBox(2);
+        squats.setId("Squats 1RM");
+        squats.setSpacing(5);
+        // Add the Text Nodes to the VBox
+        squats.getChildren().add(squatInfo);    
         root.getChildren().add(squats);
         Tab squat = new Tab("Squats", squats);
         
         //Bench Tab
-        TableView benches = new TableView();
-        //Bench Table
-        TableColumn benchesLast1RM = new TableColumn("Last 1RM");
-        squatsLast1RM.setCellValueFactory(new PropertyValueFactory("Last 1RM"));
-        TableColumn benchesHighest1RM = new TableColumn("Highest 1RM");
-        squatsLast1RM.setCellValueFactory(new PropertyValueFactory("Highest 1RM"));
-        benches.getColumns().add(squatsLast1RM);
-        benches.getColumns().add(squatsHighest1RM);
+        Text benchInfo = new Text("Highest 1RM: " + createStatRecord("bench")+ "\n" + "Latest 1RM: ");
+        VBox benches = new VBox(2); 
+        benches.setId("Bench 1RM");
+        benches.setSpacing(5);
+        benches.getChildren().add(benchInfo);
         root.getChildren().add(benches);
         Tab bench = new Tab("Benches", benches);
         
         //Deadlift Tab
-         TableView deadlifts = new TableView();
-        //Bench Table
-        TableColumn deadliftsLast1RM = new TableColumn("Last 1RM");
-        squatsLast1RM.setCellValueFactory(new PropertyValueFactory("Last 1RM"));
-        TableColumn deadliftsHighest1RM = new TableColumn("Highest 1RM");
-        squatsLast1RM.setCellValueFactory(new PropertyValueFactory("Highest 1RM"));
-        deadlifts.getColumns().add(squatsLast1RM);
-        deadlifts.getColumns().add(squatsHighest1RM);
+        Text deadliftInfo = new Text("Highest 1RM: " + createStatRecord("deadlift")+ "\n" + "Latest 1RM: ");
+        VBox deadlifts = new VBox(2);
+        deadlifts.setId("Deadlift 1RM");
+        deadlifts.setSpacing(5);
+        deadlifts.getChildren().add(deadliftInfo);
         root.getChildren().add(deadlifts);
         Tab deadlift = new Tab("Deadlift", deadlifts);
         
@@ -308,6 +302,9 @@ public class Cmpsc390Project extends Application{
         tabPane.getTabs().add(squat);
         tabPane.getTabs().add(bench);
         tabPane.getTabs().add(deadlift);
+        
+        tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
+
         
         root.getChildren().add(accordion);
         
@@ -382,7 +379,7 @@ public class Cmpsc390Project extends Application{
                 createStatPage();
             }
 
-        });
+        }); 
         
         homePage.setOnAction(new EventHandler<ActionEvent>(){
             @Override
@@ -496,10 +493,74 @@ public class Cmpsc390Project extends Application{
         
     }
     
-    public int calculate1RM(int reps, int weights){
-    //1RM formula = weight(reps/100)
-    return  weights * (reps/100);
+    //create the stat record and sort
+    //this method is called in the tab area of createHomepage
+    //String name is the workout of each tab
+    public double createStatRecord(String name) throws FileNotFoundException, IOException{
+   File workoutStats = new File("workoutInput.txt");
+   BufferedReader bf = new BufferedReader(new FileReader(workoutStats));
+   String currentLine = bf.readLine();
+   int weights = 0;
+   int reps = 0;
+   int sets = 0;
+   double output = 0.0;
+   ArrayList <Double> squats = new  <Double> ArrayList();
+   ArrayList  <Double> bench = new <Double> ArrayList();
+   ArrayList <Double> deadlift = new <Double> ArrayList();
+        
+            File data = new File("WorkoutInput.txt");
+            String FieldDelimiter = ",";
+            BufferedReader reader = new BufferedReader(new FileReader(data));
+            String line;
+
+            //read file and increment each time the workout repeats
+            while ((line = reader.readLine()) != null){
+                String[] fields = line.split(FieldDelimiter,-2);
+                entry input = new entry(fields[0],Integer.parseInt(fields[1]),Integer.parseInt(fields[2]),Integer.parseInt(fields[3]));
+            
+            switch(name){
+                case "squats":
+                    //calculate the 1RM of the record
+                    squats.add(calculate1RM(input));
+                    //get the biggest 1RM 
+                    output = getBiggestRM(squats);
+                break;
+              
+                case "bench":
+                    bench.add(calculate1RM(input));
+                    output = getBiggestRM(bench);
+                break;
+              
+                case "deadlift":
+                    deadlift.add(calculate1RM(input));
+                    output = getBiggestRM(deadlift);
+
+                break;
+                
+                default: 
+                    output = 10.0;
+                break;
+            }
+            
+           }
+            
+            bf.close();
+            //return the biggest 1rm of that particular record
+            return output;
 }
+    
+    //calculate its 1rm
+    public double calculate1RM(entry x) throws FileNotFoundException, IOException{
+    //1RM formula = (weight*reps*.033)+weight
+    return  ((x.getWeight()*x.getReps()*.033)+x.getWeight());
+}
+    //sort
+    public double getBiggestRM(ArrayList <Double> x){
+            Collections.sort(x);
+            //the highest value will be in the first spot of the array after sorting
+            return x.get(0);
+        }
+
     
     public void deleteHomeWorkout(Record item) throws IOException{
         try{
@@ -643,7 +704,7 @@ public class Cmpsc390Project extends Application{
                         BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
                         bufferedWriter.write(workoutBox.getValue() + "," + weightVal + "," + repVal + "," + setVal + "\n");
                         bufferedWriter.close();
-                    
+                      
                     } catch(IOException e) {
                         System.out.println("COULD NOT LOG!!");
                     }
@@ -892,16 +953,14 @@ public class Cmpsc390Project extends Application{
         submit.setLayoutY(200);
         root.getChildren().add(submit);
         
-        //sets info based on editing workout
         if(modify!= null){
             LocalDate localDate = LocalDate.parse(modify.getDate());
             String tyme1 = modify.getTime().substring(0,modify.getTime().indexOf('-'));
             String tyme2 = modify.getTime().substring(modify.getTime().indexOf('-')+1);
             String AMPM1 = tyme1.substring(tyme1.length()-2);
             String AMPM2 = tyme2.substring(tyme2.length()-2);
-            
-            tyme1 = tyme1.substring(0,tyme1.indexOf(":"));
-            tyme2 = tyme2.substring(0,tyme2.indexOf(":"));
+            tyme1 = tyme1.substring(0,tyme1.length()-2);
+            tyme2 = tyme2.substring(0,tyme2.length()-2);
             String givenWorkouts = modify.getWorkout();
             ArrayList workouts1 = new ArrayList();
             while(!givenWorkouts.equals("")){
@@ -930,15 +989,6 @@ public class Cmpsc390Project extends Application{
         submit.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent evt){ 
-                if(modify != null){
-                    try {
-                        System.out.println("delete " + modify);
-                        deleteHomeWorkout(modify);
-                    } catch (IOException ex) {
-                        System.out.println("Error deleting workout on submit when modify isn't null");
-                    }
-                }
-                
                 if(time1.getValue() == null || time2.getValue() == null || day.getValue() == null || night.getValue() == null){
                     Label error = new Label("Enter a value in all boxes!");
                     error.setLayoutX(stage.getWidth()/2);
@@ -981,10 +1031,9 @@ public class Cmpsc390Project extends Application{
                     System.out.println("COULD NOT LOG!!");
                 }
                 stage.close();
-                Stage stage = new Stage();
                     try {
-                        start(stage);
-                    } catch (Exception ex) {
+                        createHomepage();
+                    } catch (IOException ex) {
                         Logger.getLogger(Cmpsc390Project.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }

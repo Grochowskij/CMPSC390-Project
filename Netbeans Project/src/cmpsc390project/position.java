@@ -27,13 +27,13 @@ public class position {
     	entry third = new entry("none3",0,0,0);
         third.setAmount(0);
         Boolean found = false;
-    	
-    	try {
+        
+        try {
             File data = new File("Workoutinput.txt");
             String FieldDelimiter = ",";
             BufferedReader reader = new BufferedReader(new FileReader(data));
             String line;
-	
+
             //read file and increment each time the workout repeats
             while ((line = reader.readLine()) != null){
                 String[] fields = line.split(FieldDelimiter,-2);
@@ -45,14 +45,14 @@ public class position {
                         break;
                     }
                 }
-                
+
                 //adds input to list if not found in arraylist
                 if(!found){
                     entries.add(input);
                 } else {
                     found = false;
                 }
-                
+
                 Collections.sort(entries, Collections.reverseOrder());
                 switch(entries.size()){
                     case 0:
@@ -70,10 +70,10 @@ public class position {
                         third = entries.get(2);
                         break;
                 }
-                
+
             }
-            
-            
+
+
 	} catch (FileNotFoundException e) {
             System.out.println("Error, data missing...");
 	}
