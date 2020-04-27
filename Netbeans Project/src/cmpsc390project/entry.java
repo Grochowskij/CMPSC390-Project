@@ -4,15 +4,22 @@ public class entry implements Comparable<entry>{
 	private String name;
 	private int set;
 	private int rep;
-	private int temp;
+	private int weight;
 	private int amount;
 	
 	public entry(String a, int b, int c, int d){
 		name = a;
-		set = b;
-		rep = c;
-		temp = d;
+		weight = b;
+		set = d;
 		amount = 1;
+	}
+        
+        public int getWeight(){
+		return weight;
+	}
+        
+        public int getReps(){
+		return rep;
 	}
 	
 	public String getName(){
