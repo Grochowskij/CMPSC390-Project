@@ -1255,11 +1255,13 @@ public class Cmpsc390Project extends Application{
         
         ArrayList workoutList = new ArrayList();
         try {
-            File myObj = new File("WorkoutList.txt");
+            File myObj = new File("input.txt");
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
                 String workout = myReader.nextLine();
                 workoutList.add(workout);
+                myReader.nextLine();
+                myReader.nextLine();
             }
             myReader.close();
         } catch (FileNotFoundException e) {
