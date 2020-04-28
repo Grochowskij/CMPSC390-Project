@@ -292,44 +292,44 @@ public class Cmpsc390Project extends Application{
 	        XYChart.Series series = new XYChart.Series();
 	        series.setName("Squats");
 	        
-	        series.getData().add(new XYChart.Data(1, calculate1RM(s1)));
-	        series.getData().add(new XYChart.Data(2, calculate1RM(s2)));
-	        series.getData().add(new XYChart.Data(3, calculate1RM(s3)));
-	        series.getData().add(new XYChart.Data(4, calculate1RM(s4)));
-	        series.getData().add(new XYChart.Data(5, calculate1RM(s5)));
-	        series.getData().add(new XYChart.Data(6, calculate1RM(s6)));
-	        series.getData().add(new XYChart.Data(7, calculate1RM(s7)));
-	        series.getData().add(new XYChart.Data(8, calculate1RM(s8)));
-	        series.getData().add(new XYChart.Data(9, calculate1RM(s9)));
-	        series.getData().add(new XYChart.Data(10, calculate1RM(s10)));
+	        series.getData().add(new XYChart.Data(1, s1.calculate1RM()));
+	        series.getData().add(new XYChart.Data(2, s2.calculate1RM()));
+	        series.getData().add(new XYChart.Data(3, s3.calculate1RM()));
+	        series.getData().add(new XYChart.Data(4, s4.calculate1RM()));
+	        series.getData().add(new XYChart.Data(5, s5.calculate1RM()));
+	        series.getData().add(new XYChart.Data(6, s6.calculate1RM()));
+	        series.getData().add(new XYChart.Data(7, s7.calculate1RM()));
+	        series.getData().add(new XYChart.Data(8, s8.calculate1RM()));
+	        series.getData().add(new XYChart.Data(9, s9.calculate1RM()));
+	        series.getData().add(new XYChart.Data(10, s10.calculate1RM()));
 	        
 	        XYChart.Series series2 = new XYChart.Series();
 	        series2.setName("Benches");
 	        
-	        series2.getData().add(new XYChart.Data(1, calculate1RM(b1)));
-	        series2.getData().add(new XYChart.Data(2, calculate1RM(b2)));
-	        series2.getData().add(new XYChart.Data(3, calculate1RM(b3)));
-	        series2.getData().add(new XYChart.Data(4, calculate1RM(b4)));
-	        series2.getData().add(new XYChart.Data(5, calculate1RM(b5)));
-	        series2.getData().add(new XYChart.Data(6, calculate1RM(b6)));
-	        series2.getData().add(new XYChart.Data(7, calculate1RM(b7)));
-	        series2.getData().add(new XYChart.Data(8, calculate1RM(b8)));
-	        series2.getData().add(new XYChart.Data(9, calculate1RM(b9)));
-	        series2.getData().add(new XYChart.Data(10, calculate1RM(b10)));
+	        series2.getData().add(new XYChart.Data(1, b1.calculate1RM()));
+	        series2.getData().add(new XYChart.Data(2, b2.calculate1RM()));
+	        series2.getData().add(new XYChart.Data(3, b3.calculate1RM()));
+	        series2.getData().add(new XYChart.Data(4, b4.calculate1RM()));
+	        series2.getData().add(new XYChart.Data(5, b5.calculate1RM()));
+	        series2.getData().add(new XYChart.Data(6, b6.calculate1RM()));
+	        series2.getData().add(new XYChart.Data(7, b7.calculate1RM()));
+	        series2.getData().add(new XYChart.Data(8, b8.calculate1RM()));
+	        series2.getData().add(new XYChart.Data(9, b9.calculate1RM()));
+	        series2.getData().add(new XYChart.Data(10, b10.calculate1RM()));
 	        
 	        XYChart.Series series3 = new XYChart.Series();
 	        series3.setName("Deadlift");
 	        
-	        series3.getData().add(new XYChart.Data(1, calculate1RM(d1)));
-	        series3.getData().add(new XYChart.Data(2, calculate1RM(d2)));
-	        series3.getData().add(new XYChart.Data(3, calculate1RM(d3)));
-	        series3.getData().add(new XYChart.Data(4, calculate1RM(d4)));
-	        series3.getData().add(new XYChart.Data(5, calculate1RM(d5)));
-	        series3.getData().add(new XYChart.Data(6, calculate1RM(d6)));
-	        series3.getData().add(new XYChart.Data(7, calculate1RM(d7)));
-	        series3.getData().add(new XYChart.Data(8, calculate1RM(d8)));
-	        series3.getData().add(new XYChart.Data(9, calculate1RM(d9)));
-	        series3.getData().add(new XYChart.Data(10, calculate1RM(d10)));
+	        series3.getData().add(new XYChart.Data(1, d1.calculate1RM()));
+	        series3.getData().add(new XYChart.Data(2, d2.calculate1RM()));
+	        series3.getData().add(new XYChart.Data(3, d3.calculate1RM()));
+	        series3.getData().add(new XYChart.Data(4, d4.calculate1RM()));
+	        series3.getData().add(new XYChart.Data(5, d5.calculate1RM()));
+	        series3.getData().add(new XYChart.Data(6, d6.calculate1RM()));
+	        series3.getData().add(new XYChart.Data(7, d7.calculate1RM()));
+	        series3.getData().add(new XYChart.Data(8, d8.calculate1RM()));
+	        series3.getData().add(new XYChart.Data(9, d9.calculate1RM()));
+	        series3.getData().add(new XYChart.Data(10, d10.calculate1RM()));
 	        
 	        lineChart.getData().add(series);
 	        lineChart.getData().add(series2);
