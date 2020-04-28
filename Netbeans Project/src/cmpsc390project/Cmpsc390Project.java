@@ -709,8 +709,10 @@ public class Cmpsc390Project extends Application{
         oneRepMax.setLayoutX(320);
         oneRepMax.setLayoutY(250);
         
+        double[] returns = createStatRecord("Squat");
+        
         //Squats Tab
-        Text squatInfo = new Text("Highest 1RM: " + createStatRecord("squats")+ "\n" + "Latest 1RM: ");
+        Text squatInfo = new Text("Highest 1RM: " + returns[0] + "\n" + "Latest 1RM: " + returns[1]);
         // Create the VBox
         VBox squats = new VBox(2);
         squats.setId("Squats 1RM");
@@ -720,8 +722,10 @@ public class Cmpsc390Project extends Application{
         root.getChildren().add(squats);
         Tab squat = new Tab("Squats", squats);
         
+        returns = createStatRecord("Bench");
+        
         //Bench Tab
-        Text benchInfo = new Text("Highest 1RM: " + createStatRecord("bench")+ "\n" + "Latest 1RM: ");
+        Text benchInfo = new Text("Highest 1RM: " + returns[0] + "\n" + "Latest 1RM: " + returns[1]);
         VBox benches = new VBox(2); 
         benches.setId("Bench 1RM");
         benches.setSpacing(5);
@@ -729,19 +733,21 @@ public class Cmpsc390Project extends Application{
         root.getChildren().add(benches);
         Tab bench = new Tab("Benches", benches);
         
+        returns = createStatRecord("Sit-ups");
+        
         //Deadlift Tab
-        Text deadliftInfo = new Text("Highest 1RM: " + createStatRecord("deadlift")+ "\n" + "Latest 1RM: ");
-        VBox deadlifts = new VBox(2);
-        deadlifts.setId("Deadlift 1RM");
-        deadlifts.setSpacing(5);
-        deadlifts.getChildren().add(deadliftInfo);
-        root.getChildren().add(deadlifts);
-        Tab deadlift = new Tab("Deadlift", deadlifts);
+        Text situpInfo = new Text("Highest 1RM: " + returns[0] + "\n" + "Latest 1RM: " + returns[1]);
+        VBox situps = new VBox(2);
+        situps.setId("Sit-up 1RM");
+        situps.setSpacing(5);
+        situps.getChildren().add(situpInfo);
+        root.getChildren().add(situps);
+        Tab situpTab = new Tab("Sit-up", situps);
         
         //add all three tabs to the tabpane
         tabPane.getTabs().add(squat);
         tabPane.getTabs().add(bench);
-        tabPane.getTabs().add(deadlift);
+        tabPane.getTabs().add(situpTab);
         
         tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 
@@ -936,70 +942,42 @@ public class Cmpsc390Project extends Application{
     //create the stat record and sort
     //this method is called in the tab area of createHomepage
     //String name is the workout of each tab
-    public double createStatRecord(String name) throws FileNotFoundException, IOException{
-   File workoutStats = new File("workoutInput.txt");
-   BufferedReader bf = new BufferedReader(new FileReader(workoutStats));
-   String currentLine = bf.readLine();
-   int weights = 0;
-   int reps = 0;
-   int sets = 0;
-   double output = 0.0;
-   ArrayList <Double> squats = new  <Double> ArrayList();
-   ArrayList  <Double> bench = new <Double> ArrayList();
-   ArrayList <Double> deadlift = new <Double> ArrayList();
+    public double[] createStatRecord(String name) throws FileNotFoundException, IOException{
+        File workoutStats = new File("workoutInput.txt");
+        BufferedReader bf = new BufferedReader(new FileReader(workoutStats));
+        double[] output = new double[2];
         
+        //read file
             File data = new File("WorkoutInput.txt");
             String FieldDelimiter = ",";
             BufferedReader reader = new BufferedReader(new FileReader(data));
             String line;
-
+            
+            entry last = new entry();
+            entry biggest = new entry();
             //read file and increment each time the workout repeats
             while ((line = reader.readLine()) != null){
                 String[] fields = line.split(FieldDelimiter,-2);
                 entry input = new entry(fields[0],Integer.parseInt(fields[1]),Integer.parseInt(fields[2]),Integer.parseInt(fields[3]));
             
-            switch(name){
-                case "squats":
-                    //calculate the 1RM of the record
-                    squats.add(calculate1RM(input));
-                    //get the biggest 1RM 
-                    output = getBiggestRM(squats);
-                break;
-              
-                case "bench":
-                    bench.add(calculate1RM(input));
-                    output = getBiggestRM(bench);
-                break;
-              
-                case "deadlift":
-                    deadlift.add(calculate1RM(input));
-                    output = getBiggestRM(deadlift);
-
-                break;
                 
-                default: 
-                    output = 10.0;
-                break;
+                if(input.getName().equals(name)){
+                    if(input.compare1RM(biggest)>0){
+                        biggest = input;
+                    }
+                    last = input;
+                }
+                
             }
             
-           }
             
             bf.close();
+            
+            output[0] = biggest.calculate1RM();
+            output[1] = last.calculate1RM();
             //return the biggest 1rm of that particular record
             return output;
 }
-    
-    //calculate its 1rm
-    public double calculate1RM(entry x) throws FileNotFoundException, IOException{
-    //1RM formula = (weight*reps*.033)+weight
-    return  ((x.getWeight()*x.getReps()*.033)+x.getWeight());
-}
-    //sort
-    public double getBiggestRM(ArrayList <Double> x){
-            Collections.sort(x);
-            //the highest value will be in the first spot of the array after sorting
-            return x.get(0);
-        }
 
     
     public void deleteHomeWorkout(Record item) throws IOException{

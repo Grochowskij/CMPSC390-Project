@@ -2,7 +2,6 @@ Squat,300,10,4
 Squat,300,12,4
 Squat,350,10,3
 Sit-ups,160,10,3
-Squat,300,10,4
 Squat Jump,160,10,4
 Step Up,160,10,4
-Squat Pulses,160,10,4
+Squat,300,10,4
