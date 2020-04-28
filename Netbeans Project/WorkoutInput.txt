@@ -5,3 +5,20 @@ Sit-ups,160,10,3
 Squat Jump,160,10,4
 Step Up,160,10,4
 Squat,300,10,4
+Split Squat (With or Without Dumbbells),160,10,4
+Step Up,160,10,4
+Pull-Up,160,10,4
+Lat Pull-Downs,160,10,4
+Lunge Jumps,160,10,4
+Barbell Deadlift,400,10,4
+Chest-Supported Dumbbell Row,100,10,4
+Inverted Row,100,10,4
+Single-Arm T-Bar Rows,100,10,4
+Lateral Raise ,30,10,4
+Squat,400,12,4
+Half-Kneeling Archer Row,100,12,4
+Squat Jump,215,12,4
+Step Up,160,12,4
+Barbell Deadlift,450,12,4
+Resistance Band Face Pull,10,12,4
+Kettlebell Single-Arm Press,30,12,4
