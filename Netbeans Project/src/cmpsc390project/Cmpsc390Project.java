@@ -98,243 +98,118 @@ public class Cmpsc390Project extends Application{
     private final ObservableList<Record> dataList
             = FXCollections.observableArrayList();
     
-    public void createStatPage(){
+    public void createStatPage() throws NumberFormatException, IOException{
         try {
 			
     		Stage stage = new Stage();
-    		stage.setMaximized(true);
+    		
 			
 			Text t = new Text();
 			t.setText("Your Stats");
 			t.setX(820); 
 			t.setY(50);
 			
-			entry s1 = new entry();
-			entry s2 = new entry();
-			entry s3 = new entry();
-			entry s4 = new entry();
-			entry s5 = new entry();
-			entry s6 = new entry();
-			entry s7 = new entry();
-			entry s8 = new entry();
-			entry s9 = new entry();
-			entry s10 = new entry();
-			
-			entry b1 = new entry();
-			entry b2 = new entry();
-			entry b3 = new entry();
-			entry b4 = new entry();
-			entry b5 = new entry();
-			entry b6 = new entry();
-			entry b7 = new entry();
-			entry b8 = new entry();
-			entry b9 = new entry();
-			entry b10 = new entry();
-			
-			entry d1 = new entry();
-			entry d2 = new entry();
-			entry d3 = new entry();
-			entry d4 = new entry();
-			entry d5 = new entry();
-			entry d6 = new entry();
-			entry d7 = new entry();
-			entry d8 = new entry();
-			entry d9 = new entry();
-			entry d10 = new entry();
-			
-			int scount = 0, bcount = 0, dcount = 0;
+                        ArrayList<entry> squats = new ArrayList<>();
+                        ArrayList<entry> deadlift = new ArrayList<>();
+                        
 			File workouts = new File("WorkoutInput.txt");
 			String FieldDelimiter = ",";
-	        BufferedReader reader = new BufferedReader(new FileReader(workouts));
-	        String line;
+                        BufferedReader reader = new BufferedReader(new FileReader(workouts));
+                        String line;
+                        
+                        
 			while ((line = reader.readLine()) != null)
 			{String[] fields = line.split(FieldDelimiter,-2);
 			entry temp = new entry(fields[0],Integer.parseInt(fields[1]),Integer.parseInt(fields[2]),Integer.parseInt(fields[3]));
-			if (temp.getName().equals("Squat"))
-			{if (scount == 0)
-			{s1 = temp;
-			scount ++;}
-			else if (scount == 1)
-			{s2 = temp;
-			scount ++;}
-			else if (scount == 2)
-			{s3 = temp;
-			scount ++;}
-			else if (scount == 3)
-			{s4 = temp;
-			scount ++;}
-			else if (scount == 4)
-			{s5 = temp;
-			scount ++;}
-			else if (scount == 5)
-			{s6 = temp;
-			scount ++;}
-			else if (scount == 6)
-			{s7 = temp;
-			scount ++;}
-			else if (scount == 7)
-			{s8 = temp;
-			scount ++;}
-			else if (scount == 8)
-			{s9 = temp;
-			scount ++;}
-			else if (scount == 9)
-			{s10 = temp;
-			scount ++;}
-			else if (scount >= 10)
-			{s1 = s2;
-			s2 = s3;
-			s3 = s4;
-			s4 = s5;
-			s5 = s6;
-			s6 = s7;
-			s7 = s8;
-			s8 = s9;
-			s9 = s10;
-			s10 = temp;}}
-			else if (temp.getName().equals("Bench"))
-			{if (bcount == 0)
-			{b1 = temp;
-			bcount ++;}
-			else if (bcount == 1)
-			{b2 = temp;
-			bcount ++;}
-			else if (bcount == 2)
-			{b3 = temp;
-			bcount ++;}
-			else if (bcount == 3)
-			{b4 = temp;
-			bcount ++;}
-			else if (bcount == 4)
-			{b5 = temp;
-			bcount ++;}
-			else if (bcount == 5)
-			{b6 = temp;
-			bcount ++;}
-			else if (bcount == 6)
-			{b7 = temp;
-			bcount ++;}
-			else if (bcount == 7)
-			{b8 = temp;
-			bcount ++;}
-			else if (bcount == 8)
-			{b9 = temp;
-			bcount ++;}
-			else if (bcount == 9)
-			{b10 = temp;
-			bcount ++;}
-			else if (bcount >= 10)
-			{b1 = b2;
-			b2 = b3;
-			b3 = b4;
-			b4 = b5;
-			b5 = b6;
-			b6 = b7;
-			b7 = b8;
-			b8 = b9;
-			b9 = b10;
-			b10 = temp;}}
-			else if (temp.getName().equals("Barbell Deadlift"))
-			{if (dcount == 0)
-			{d1 = temp;
-			dcount ++;}
-			else if (dcount == 1)
-			{d2 = temp;
-			dcount ++;}
-			else if (dcount == 2)
-			{d3 = temp;
-			dcount ++;}
-			else if (dcount == 3)
-			{d4 = temp;
-			dcount ++;}
-			else if (dcount == 4)
-			{d5 = temp;
-			dcount ++;}
-			else if (dcount == 5)
-			{d6 = temp;
-			dcount ++;}
-			else if (dcount == 6)
-			{d7 = temp;
-			dcount ++;}
-			else if (dcount == 7)
-			{d8 = temp;
-			dcount ++;}
-			else if (dcount == 8)
-			{d9 = temp;
-			dcount ++;}
-			else if (dcount == 9)
-			{d10 = temp;
-			dcount ++;}
-			else if (dcount >= 10)
-			{d1 = d2;
-			d2 = d3;
-			d3 = d4;
-			d4 = d5;
-			d5 = d6;
-			d6 = d7;
-			d7 = d8;
-			d8 = d9;
-			d9 = d10;
-			d10 = temp;}}
-			}
-			
+                        
+                        
+                        switch(temp.getName()){
+                            case "Squat":
+                                squats.add(temp);
+                                break;
+                            case "Barbell Deadlift":
+                                deadlift.add(temp);
+                                break;
+                            default:
+                                break;
+                        }
+                        }
 			
 			final NumberAxis xAxis = new NumberAxis();
-	        final NumberAxis yAxis = new NumberAxis();
-	        xAxis.setLabel("Last 10 Workouts");
-	        yAxis.setLabel("1RM");
-	        final LineChart<Number,Number> lineChart = 
-	        new LineChart<Number,Number>(xAxis,yAxis);
+                        final NumberAxis yAxis = new NumberAxis();
+                        xAxis.setLabel("Last 10 Workouts");
+                        yAxis.setLabel("1RM");
+                        final LineChart<Number,Number> lineChart = 
+                        new LineChart<Number,Number>(xAxis,yAxis);
 	                
 	        lineChart.setTitle("Progress");
 			lineChart.setLayoutY(30);
 	        
 	        XYChart.Series series = new XYChart.Series();
 	        series.setName("Squats");
-	        
-	        series.getData().add(new XYChart.Data(1, s1.calculate1RM()));
-	        series.getData().add(new XYChart.Data(2, s2.calculate1RM()));
-	        series.getData().add(new XYChart.Data(3, s3.calculate1RM()));
-	        series.getData().add(new XYChart.Data(4, s4.calculate1RM()));
-	        series.getData().add(new XYChart.Data(5, s5.calculate1RM()));
-	        series.getData().add(new XYChart.Data(6, s6.calculate1RM()));
-	        series.getData().add(new XYChart.Data(7, s7.calculate1RM()));
-	        series.getData().add(new XYChart.Data(8, s8.calculate1RM()));
-	        series.getData().add(new XYChart.Data(9, s9.calculate1RM()));
-	        series.getData().add(new XYChart.Data(10, s10.calculate1RM()));
+                
+	        int index = 0;
+                
+                if(squats.size()>10){
+                    index = squats.size()-10;
+                } else {
+                    while(squats.size()<10){
+                        squats.add(new entry());
+                    }
+                }
+                
+                for(int i  = 0; i < 10; i++){
+                    series.getData().add(new XYChart.Data(i, squats.get(index).calculate1RM()));
+                    index++;
+                }
+                
+                index = 0;
+                
+                if(deadlift.size()>10){
+                    index = deadlift.size()-10;
+                } else {
+                    while(deadlift.size() < 10){
+                        deadlift.add(new entry());
+                    }
+                }
 	        
 	        XYChart.Series series2 = new XYChart.Series();
-	        series2.setName("Benches");
-	        
-	        series2.getData().add(new XYChart.Data(1, b1.calculate1RM()));
-	        series2.getData().add(new XYChart.Data(2, b2.calculate1RM()));
-	        series2.getData().add(new XYChart.Data(3, b3.calculate1RM()));
-	        series2.getData().add(new XYChart.Data(4, b4.calculate1RM()));
-	        series2.getData().add(new XYChart.Data(5, b5.calculate1RM()));
-	        series2.getData().add(new XYChart.Data(6, b6.calculate1RM()));
-	        series2.getData().add(new XYChart.Data(7, b7.calculate1RM()));
-	        series2.getData().add(new XYChart.Data(8, b8.calculate1RM()));
-	        series2.getData().add(new XYChart.Data(9, b9.calculate1RM()));
-	        series2.getData().add(new XYChart.Data(10, b10.calculate1RM()));
-	        
-	        XYChart.Series series3 = new XYChart.Series();
-	        series3.setName("Deadlift");
-	        
-	        series3.getData().add(new XYChart.Data(1, d1.calculate1RM()));
-	        series3.getData().add(new XYChart.Data(2, d2.calculate1RM()));
-	        series3.getData().add(new XYChart.Data(3, d3.calculate1RM()));
-	        series3.getData().add(new XYChart.Data(4, d4.calculate1RM()));
-	        series3.getData().add(new XYChart.Data(5, d5.calculate1RM()));
-	        series3.getData().add(new XYChart.Data(6, d6.calculate1RM()));
-	        series3.getData().add(new XYChart.Data(7, d7.calculate1RM()));
-	        series3.getData().add(new XYChart.Data(8, d8.calculate1RM()));
-	        series3.getData().add(new XYChart.Data(9, d9.calculate1RM()));
-	        series3.getData().add(new XYChart.Data(10, d10.calculate1RM()));
+	        series2.setName("Deadlift");
+                
+                for(int i  = 0; i < 10; i++){
+                    series2.getData().add(new XYChart.Data(i, deadlift.get(index).calculate1RM()));
+                    index++;
+                }
 	        
 	        lineChart.getData().add(series);
 	        lineChart.getData().add(series2);
-	        lineChart.getData().add(series3);
-			
+                
+                ArrayList shoulderA = new ArrayList();
+                ArrayList legA = new ArrayList();
+                ArrayList backA = new ArrayList();
+                
+                File myObj = new File("input.txt");
+                Scanner myReader = new Scanner(myObj);
+                while (myReader.hasNextLine()) {
+                    String workout = myReader.nextLine();
+                    String type = myReader.nextLine();
+                    switch(type){
+                        case "S":
+                            shoulderA.add(workout);
+                            break;
+                        case "B":
+                            backA.add(workout);
+                            break;
+                        case "L":
+                            legA.add(workout);
+                            break;
+                        default:
+                            break;
+                    }
+                    myReader.nextLine();
+                }
+                myReader.close();
+                
                     TableView workouts1 = new TableView();
                     TableColumn<String, cell> column1 = new TableColumn<>("Name");
 		    column1.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -342,12 +217,10 @@ public class Cmpsc390Project extends Application{
 		    column2.setCellValueFactory(new PropertyValueFactory<>("amount"));
 		    workouts1.getColumns().add(column1);
 		    workouts1.getColumns().add(column2);
-		    workouts1.getItems().add(new cell("Lateral Raise"));
-		    workouts1.getItems().add(new cell("Military Press"));
-		    workouts1.getItems().add(new cell("Arnold Press"));
-		    workouts1.getItems().add(new cell("Half-Kneeling Archer Row"));
-		    workouts1.getItems().add(new cell("Kettlebell Single-Arm Press"));
-		    workouts1.getItems().add(new cell("Dumbbell Push Press"));
+                    
+                    for(int i = 0; i < shoulderA.size(); ++i){
+                        workouts1.getItems().add(new cell((String)shoulderA.get(i)));
+                    }
 			
 			TableView workouts2 = new TableView();
 			TableColumn<String, cell> column3 = new TableColumn<>("Name");
@@ -356,14 +229,10 @@ public class Cmpsc390Project extends Application{
 		    column4.setCellValueFactory(new PropertyValueFactory<>("amount"));
 		    workouts2.getColumns().add(column3);
 		    workouts2.getColumns().add(column4);
-		    workouts2.getItems().add(new cell("Walking Lunge"));
-		    workouts2.getItems().add(new cell("Squat"));
-		    workouts2.getItems().add(new cell("Squat Jump"));
-		    workouts2.getItems().add(new cell("Split Squat (With or Without Dumbbells)"));
-		    workouts2.getItems().add(new cell("Single Leg Bridge"));
-		    workouts2.getItems().add(new cell("Step Up"));
-		    workouts2.getItems().add(new cell("Lunge Jumps"));
-		    workouts2.getItems().add(new cell("Squat Pulses"));
+                    
+                    for(int i = 0; i < legA.size(); ++i){
+                        workouts2.getItems().add(new cell((String)legA.get(i)));
+                    }
 			
 			TableView workouts3 = new TableView();
 			TableColumn<String, cell> column5 = new TableColumn<>("Name");
@@ -372,83 +241,109 @@ public class Cmpsc390Project extends Application{
 		    column6.setCellValueFactory(new PropertyValueFactory<>("amount"));
 		    workouts3.getColumns().add(column5);
 		    workouts3.getColumns().add(column6);
-		    workouts3.getItems().add(new cell("Kettlebell Swings"));
-		    workouts3.getItems().add(new cell("Barbell Deadlift"));
-		    workouts3.getItems().add(new cell("Barbell Bent-Over Row"));
-		    workouts3.getItems().add(new cell("Pull-Up"));
-		    workouts3.getItems().add(new cell("Dumbbell Single Arm Row"));
-		    workouts3.getItems().add(new cell("Chest-Supported Dumbbell Row"));
-		    workouts3.getItems().add(new cell("Inverted Row"));
-		    workouts3.getItems().add(new cell("Lat Pull-Downs"));
-		    workouts3.getItems().add(new cell("Single-Arm T-Bar Rows"));
-		    workouts3.getItems().add(new cell("Farmers’ Walk"));
+                    
+                    for(int i = 0; i < backA.size(); ++i){
+                        workouts3.getItems().add(new cell((String)backA.get(i)));
+                    }
 		    
-	        TitledPane shoulder = new TitledPane("Shoulder", workouts1);
-	        shoulder.setLayoutX(500);
+                    TitledPane shoulder = new TitledPane("Shoulder", workouts1);
+                    shoulder.setLayoutX(500);
 		    shoulder.setLayoutY(65);
 		    TitledPane leg = new TitledPane("Leg", workouts2);
-	        leg.setLayoutX(750);
+                    leg.setLayoutX(750);
 		    leg.setLayoutY(65);
 		    TitledPane back = new TitledPane("Back", workouts3);
-	        back.setLayoutX(1000);
+                    back.setLayoutX(1000);
 		    back.setLayoutY(65);
 			
-			Button a = new Button("Home");
-			a.setLayoutX(0);
-		    a.setLayoutY(0);
-			Button b = new Button("Workouts");
-			b.setLayoutX(55);
-		    b.setLayoutY(0);
-			Button c = new Button("Schedule");
-			c.setLayoutX(135);
-		    c.setLayoutY(0);
+                    
+        
+        Button homePage = new Button();
+        homePage.setText("Home Page");
+        homePage.setMinWidth(100);
+        
+        //Takes to mod schedule
+        Button btn = new Button();
+        btn.setText("Add Workout");
+        btn.setLayoutX(100);
+        btn.setLayoutY(0);
+        btn.setMinWidth(100);
+        
+        //takes to list of workouts
+        Button WorkoutBtn = new Button();
+        WorkoutBtn.setText("Workout List");
+        WorkoutBtn.setLayoutX(200);
+        WorkoutBtn.setMinWidth(100);
+        
+        //button to stats
+        Button StatBtn = new Button();
+        StatBtn.setText("Statistics");
+        StatBtn.setLayoutX(300);
+        StatBtn.setMinWidth(100);
+        
+        btn.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent evt){ 
+                stage.close();
+                createModSchedPage(null);
+            }
+
+        });
+        
+        WorkoutBtn.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent evt){ 
+                stage.close();
+                try {
+                    createWorkoutPage();
+                } catch (FileNotFoundException ex) {
+                    
+                }
+            }
+
+        });
+        
+        StatBtn.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent evt){ 
+                stage.close();
+                try {
+                    createStatPage();
+                } catch (IOException ex) {
+                    Logger.getLogger(Cmpsc390Project.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+        });
+        
+        homePage.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent evt){ 
+                stage.close();
+                try {
+                    createHomepage();
+                } catch (IOException ex) {
+                    Logger.getLogger(Cmpsc390Project.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+        });
 			
-		    Group root = new Group(t,shoulder,leg,back,a,b,c,lineChart,workouts1);
+		    Group root = new Group(t,shoulder,leg,back,lineChart,workouts1,homePage, StatBtn,WorkoutBtn,btn);
 			Scene scene = new Scene(root,400,400);
-			
+			scene.getStylesheets().add("cmpsc390project/Styling.css");
+                        
+                        
 			stage.setScene(scene);
+                        stage.setTitle("Stats");
+                        
 			stage.show();
-			stage.setTitle("Stats");
-		    
-		    a.setOnAction(new EventHandler<ActionEvent>(){
-	            @Override
-	            public void handle(ActionEvent evt){ 
-	                stage.close();
-	                try {
-	                    createHomepage();
-	                } catch (IOException ex) {
-	                    Logger.getLogger(Cmpsc390Project.class.getName()).log(Level.SEVERE, null, ex);
-	                }
-	            }
-
-	        });
-		    
-		    b.setOnAction(new EventHandler<ActionEvent>(){
-	            @Override
-	            public void handle(ActionEvent evt){ 
-	                stage.close();
-	                try {
-						createWorkoutPage();
-					} catch (FileNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-	            }
-
-	        });
-		    
-		    c.setOnAction(new EventHandler<ActionEvent>(){
-	            @Override
-	            public void handle(ActionEvent evt){ 
-	                stage.close();
-	                createModSchedPage(null);
-	            }
-
-	        });
+			stage.setMaximized(true);
 			
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+		
+        } catch(Exception e) {
+            e.printStackTrace();
+	}
     }
     
     public void createWorkoutPage() throws FileNotFoundException{
@@ -647,7 +542,11 @@ public class Cmpsc390Project extends Application{
             @Override
             public void handle(ActionEvent evt){ 
                 stage.close();
-                createStatPage();
+                try {
+                    createStatPage();
+                }catch (IOException ex) {
+                    Logger.getLogger(Cmpsc390Project.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
 
         });
@@ -822,7 +721,11 @@ public class Cmpsc390Project extends Application{
             @Override
             public void handle(ActionEvent evt){ 
                 stage.close();
-                createStatPage();
+                try {
+                    createStatPage();
+                } catch (IOException ex) {
+                    Logger.getLogger(Cmpsc390Project.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
 
         }); 
@@ -1119,9 +1022,9 @@ public class Cmpsc390Project extends Application{
 
                         FileWriter fileWriter = new FileWriter(WorkoutInputF, true);
 
-                        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-                        bufferedWriter.write(workoutBox.getValue() + "," + weightVal + "," + repVal + "," + setVal + "\n");
-                        bufferedWriter.close();
+                        try (BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
+                            bufferedWriter.write(workoutBox.getValue() + "," + weightVal + "," + repVal + "," + setVal + "\n");
+                        }
                       
                     } catch(IOException e) {
                         System.out.println("COULD NOT LOG!!");
@@ -1266,7 +1169,11 @@ public class Cmpsc390Project extends Application{
             @Override
             public void handle(ActionEvent evt){ 
                 stage.close();
-                createStatPage();
+                try {
+                    createStatPage();
+                } catch (IOException ex) {
+                    Logger.getLogger(Cmpsc390Project.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
 
         });
