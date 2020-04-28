@@ -274,7 +274,7 @@ public class Cmpsc390Project extends Application{
         oneRepMax.setLayoutY(250);
         
         //Squats Tab
-        Text squatInfo = new Text("Highest 1RM: " + createStatRecord("squats")+ "\n" + "Latest 1RM: ");
+        Text squatInfo = new Text("Highest 1RM: " + createStatRecord("Squat")+ "\n" + "Latest 1RM: ");
         // Create the VBox
         VBox squats = new VBox(2);
         squats.setId("Squats 1RM");
@@ -285,7 +285,7 @@ public class Cmpsc390Project extends Application{
         Tab squat = new Tab("Squats", squats);
         
         //Bench Tab
-        Text benchInfo = new Text("Highest 1RM: " + createStatRecord("bench")+ "\n" + "Latest 1RM: ");
+        Text benchInfo = new Text("Highest 1RM: " + createStatRecord("Bench")+ "\n" + "Latest 1RM: ");
         VBox benches = new VBox(2); 
         benches.setId("Bench 1RM");
         benches.setSpacing(5);
@@ -294,13 +294,13 @@ public class Cmpsc390Project extends Application{
         Tab bench = new Tab("Benches", benches);
         
         //Deadlift Tab
-        Text deadliftInfo = new Text("Highest 1RM: " + createStatRecord("deadlift")+ "\n" + "Latest 1RM: ");
-        VBox deadlifts = new VBox(2);
-        deadlifts.setId("Deadlift 1RM");
-        deadlifts.setSpacing(5);
-        deadlifts.getChildren().add(deadliftInfo);
-        root.getChildren().add(deadlifts);
-        Tab deadlift = new Tab("Deadlift", deadlifts);
+        Text deadliftInfo = new Text("Highest 1RM: " + createStatRecord("Sit-ups")+ "\n" + "Latest 1RM: ");
+        VBox situps = new VBox(2);
+        situps.setId("Deadlift 1RM");
+        situps.setSpacing(5);
+        situps.getChildren().add(deadliftInfo);
+        root.getChildren().add(situps);
+        Tab deadlift = new Tab("Deadlift", situps);
         
         //add all three tabs to the tabpane
         tabPane.getTabs().add(squat);
@@ -521,28 +521,29 @@ public class Cmpsc390Project extends Application{
             while ((line = reader.readLine()) != null){
                 String[] fields = line.split(FieldDelimiter,-2);
                 entry input = new entry(fields[0],Integer.parseInt(fields[1]),Integer.parseInt(fields[2]),Integer.parseInt(fields[3]));
-            
             switch(name){
-                case "squats":
+                case "Squat":
                     //calculate the 1RM of the record
-                    squats.add(calculate1RM(input));
-                    //get the biggest 1RM 
-                    output = getBiggestRM(squats);
+                   output = calculate1RM(input);
+                    //pass the array into the get the biggest 1RM method
+                    //output = getBiggestRM(squats);
                 break;
               
-                case "bench":
-                    bench.add(calculate1RM(input));
-                    output = getBiggestRM(bench);
+                case "Bench":
+                   output = calculate1RM(input);
+                   // output = getBiggestRM(bench);
+
                 break;
               
-                case "deadlift":
-                    deadlift.add(calculate1RM(input));
-                    output = getBiggestRM(deadlift);
+                case "Sit-ups":
+                  output = calculate1RM(input);
+
+                    //output = getBiggestRM(deadlift);
 
                 break;
                 
                 default: 
-                    output = 10.0;
+                    output = 0.0;
                 break;
             }
             
