@@ -22,3 +22,5 @@ Step Up,160,12,4
 Barbell Deadlift,450,12,4
 Resistance Band Face Pull,10,12,4
 Kettlebell Single-Arm Press,30,12,4
+Squat,300,10,4
+Jump squats with Dumbells,150,10,4
