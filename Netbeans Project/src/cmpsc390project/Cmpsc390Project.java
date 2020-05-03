@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import static java.time.Clock.system;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -1214,6 +1215,7 @@ public class Cmpsc390Project extends Application{
                 };
             }
             };
+        datePicker.setEditable(false);
         
         //basic datepicker setup
         datePicker.setDayCellFactory(dayCellFactory);
